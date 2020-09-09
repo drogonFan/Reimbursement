@@ -25,7 +25,8 @@ SECRET_KEY = 'z!b5)ne1y%kzk)e^b=!zv=k#lzhbp-tu&0xp)56e#jn&rlkk*t'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['47.95.147.13',
+                 'www.oscar-lab.cn']
 
 
 # Application definition
@@ -37,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+
+    'data',
 ]
 
 MIDDLEWARE = [
@@ -75,8 +78,12 @@ WSGI_APPLICATION = 'Reimbursement.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'Rei',
+        'USER':'root',
+        'PASSWORD':'2345',
+        'HOST':'localhost',
+        'PORT':'3306'
     }
 }
 
