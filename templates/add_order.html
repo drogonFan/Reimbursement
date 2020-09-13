@@ -1,0 +1,65 @@
+<!DocTYPE html>
+<html lang="en">
+<head>
+        <meta charset="UTF-8">
+        <title>index</title>
+</head>
+<body>
+        <h1>Hello world</h1>
+	<h2>Add Category</h2><br/>
+	<form action = "http://47.95.147.13:8000/add_category", method = "post">
+		category: <input name="name", type="text"/>
+		<input type = "submit">
+	</form><br/><br/>
+
+	<h2>Add User</h2>
+	<form action = "http://47.95.147.13:8000/add_user", method = "POST">
+		user:<input name = "name", type = "text"/>
+		<input type = "submit">
+	</form><br/><br/>
+
+	<h2>Add Order</h2>
+	<form action = "http://47.95.147.13:8000/add_order", method = "POST">
+		order:<input name = "name", type = "text"/>
+		<input type = "submit">
+	</form><br/><br/>
+
+	<h2>Add invoice</h2>
+	<form action = "http://47.96.147.13:8000/add_invoice">
+		<select size = "1">
+			<option> sh </option>
+			<option> bj </option>
+		</select>
+	</form>
+	{% if categorys and orders and users%}
+	    <h2>Add invoice</h2> <br/> <br/>
+	    <form action = "http://47.95.147.13:8000/add_invoice", method = "POST">
+	        invoice num:<input name = "inum", type = "text"><br/>
+	        category:
+		<select  name = "categoryid">
+			{%for id,cname in categorys.items():%}
+			<option value = "{{id}}"> {{cname}} </option>
+			{%endfor%}
+		</select>
+		user:
+                <select name = "userid">
+                        {%for id,cname in users.items():%}
+			<option value = "{{id}}"> {{cname}} </option>
+                        {%endfor%}
+                </select>
+                order:
+                <select name = "orderid">
+                        {%for id,cname in orders.items():%}
+			<option value = "{{id}}"> {{cname}} </option>
+                        {%endfor%}
+                </select>
+		money:
+		<input name= "money", type="text">
+		<input type = "submit">
+	    </form>
+	{% else %}
+		<h3>this is world</h3>
+	{% endif %}
+</body>
+</html>
+

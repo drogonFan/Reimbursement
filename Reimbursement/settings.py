@@ -25,8 +25,10 @@ SECRET_KEY = 'z!b5)ne1y%kzk)e^b=!zv=k#lzhbp-tu&0xp)56e#jn&rlkk*t'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['47.95.147.13',
-                 'www.oscar-lab.cn']
+ALLOWED_HOSTS = [
+    '47.95.147.13',
+    'www.oscar-lab.cn',
+    ]
 
 
 # Application definition
