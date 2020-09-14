@@ -14,7 +14,7 @@ class Student(models.Model):
     ssid = models.CharField(max_length=10)
     name = models.CharField(max_length=20)
     email = models.CharField(max_length=30)
-    passward = models.CharField(max_length=30)
+    passward = models.CharField(max_length=32)
 
     class Meta:
         db_table = 're_student'
