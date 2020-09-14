@@ -13,6 +13,7 @@ import random
 
 from data.models import Category, Student, Morder, Invoice, Binding
 from Reimbursement.defaul_info import verify_student
+from Reimbursement.toolkit import password_hash, validate_password
 
 @csrf_exempt
 def signup(request):
@@ -26,6 +27,8 @@ def signup(request):
         code, msg = verify_student(ssid, name)
         if code == 0:
             # 保存对象
+            # 计算并保存password的hash值
+            passward = password_hash(passward)
             student = Student(ssid=ssid, name=name, email=email, passward=passward)
             student.save()
         else:
