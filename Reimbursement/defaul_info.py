@@ -26,12 +26,16 @@ DEFAULT_STUDENT = {
     '22017061' : '陈时非',
 }
 
+DEFAULT_ADMINSTRATOR = ['201592075']
+
+DEFAULT_EMAIL_URL = 'www.oscar-lab.cn:8000/verify/?ssid='
+
 def verify_student(ssid, name):
     if ssid is None or name is None:
-        return 1, 'No permission to register'
+        return 101, 'No permission to register'
     elif ssid not in DEFAULT_STUDENT.keys():
-        return 2, 'Please check if the student ID is correct'
+        return 102, 'Please check if the student ID is correct'
     elif name != DEFAULT_STUDENT[ssid]:
-        return 3, 'Please check if the name is correct'
+        return 103, 'Please check if the name is correct'
     else:
         return 0, 'Verified successfully' 

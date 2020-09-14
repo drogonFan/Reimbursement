@@ -1,5 +1,6 @@
 import time
 import threading
+import _thread
 import random
 import smtplib
 from email.mime.multipart import MIMEMultipart
@@ -18,9 +19,9 @@ DEFAULT_SENDER = 'daenerystargaryen8@163.com'   # 发件人邮箱(最好写全, 
 DEFAULT_SENDER_NAME = 'admin'
 DEFAULT_TITLE = 'oscar发票报销系统注册验证'       # 邮件主题
 
-DEFAULT_OSCAR_LOGO = ''
-DEFAULT_UP_PNG = ''
-DEFAULT_MAIL_HTML = ''
+DEFAULT_OSCAR_LOGO = './static/img/oscar_logo.gif'
+DEFAULT_UP_PNG = './static/img/top.png'
+DEFAULT_MAIL_HTML = './templates/email.htm'
 
 # 邮件服务
 class Email163(object):
@@ -63,6 +64,12 @@ class Email163(object):
             smtpObj = smtplib.SMTP_SSL(DEFAULT_MAIL_HOST, 465)  # 启用SSL发信, 端口一般是465
             smtpObj.login(DEFAULT_MAIL_USER, DEFAULT_MAIL_PASS)  # 登录验证
             smtpObj.sendmail(DEFAULT_SENDER, receivers, msg.as_string())  # 发送
-            print("mail has been send successfully.")
         except smtplib.SMTPException as e:
             print(e)
+
+
+    def new_thread_sendemail(self, receivers, link):
+        try:
+            _thread.start_new_thread(sendEmail, (receivers, link))
+        except:
+            print("error")
