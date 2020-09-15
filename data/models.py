@@ -4,7 +4,7 @@ import django.utils.timezone as timezone
 
 class Category(models.Model):
     cid = models.AutoField(primary_key = True)
-    name = models.CharField(max_length=10)
+    name = models.CharField(max_length=20)
 
     class Meta:
         db_table = 're_category'

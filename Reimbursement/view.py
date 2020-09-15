@@ -14,7 +14,7 @@ import random
 from data.models import Category, Student, Morder, Invoice, Binding
 from Reimbursement.defaul_info import verify_student, DEFAULT_ADMINSTRATOR, DEFAULT_SIGNUP_EMAIL_URL
 from Reimbursement.toolkit import password_hash, validate_password
-from Reimbursement.mredis import add_student_info, get_student_info
+from Reimbursement.mredis import add_student_info, get_student_info, get_token, verify_token, get_invoice_num, can_new_basket
 from Reimbursement.wangyi_email import Email163
 
 @csrf_exempt
@@ -45,24 +45,24 @@ def signup(request):
 
 @csrf_exempt
 def signin(request):
-    rs = {'code': 100, 'msg':'', 'level' : 0}
+    rs = {'code': 100, 'msg':'', 'level' : 0, 'token': ''}
     if request.method == "POST":
         ssid = request.POST['ssid']
         passward = request.POST['passward']
         # 查询密码是否正确，并返回用户角色
         rs = get_student_info(ssid)
         if len(rs) == 0:
-            rs = {'code' : 101, 'msg' : 'No information for this student number', 'level' : 0}
+            rs = {'code' : 101, 'msg' : 'No information for this student number', 'level' : 0, 'token': ''}
         else:
             # 判断密码是否正确
             if validate_password(passward, rs[2]):
-                rs = {'code' : 100, 'msg' : 'login successful', 'level' : 0}
+                rs = {'code' : 100, 'msg' : 'login successful', 'level' : 0, 'token': get_token(ssid)}
                 if ssid in DEFAULT_ADMINSTRATOR:
                     rs['level'] = 1
             else:
-                rs = {'code' : 102, 'msg' : 'wrong password', 'level' : 0}        
+                rs = {'code' : 102, 'msg' : 'wrong password', 'level' : 0, 'token': ''}        
     else: 
-        rs = {'code': 109, 'msg': 'Not accept get request', 'level' : 0}
+        rs = {'code': 109, 'msg': 'Not accept get request', 'level' : 0, 'token': ''}
     return HttpResponse(json.dumps(rs))
 
 @csrf_exempt
@@ -85,3 +85,68 @@ def verify(request):
     else:
         rs = {'code': 109, 'msg': 'Not accept post request'}
     return HttpResponse(json.dumps(rs))
+
+@csrf_exempt
+def new_invoice(request):
+    rs = {'code' : 100, 'msg' : '','invoice_num':0}
+    if request.method == 'POST':
+        ssid = request.POST['ssid']
+        categoryid = int(request.POST['categoryid'])
+        money = round(float(request.POST['money']), 2)
+        token = request.POST['token']
+        description = request.POST['description']
+        if verify_token(ssid, token):
+            invoice_num = get_invoice_num()
+            invoice = Invoice(inum=invoice_num, categoryid=categoryid, 
+                                userid=ssid, money=money, description=description,
+                                status=0, application_datetime=timezone.now, re_datetime=None)
+            invoice.save()
+            rs = {'code' : 100, 'msg' : 'Added successfully', 'invoice_num':invoice_num}
+        else:
+            rs = {'code' : 100, 'msg' : 'Incorrect token, access denied', 'invoice_num':0}
+    else:
+        rs = {'code' : 109, 'msg' : 'Not accept get request', 'invoice_num':0}
+    return HttpResponse(json.dumps(rs))
+
+@csrf_exempt
+def look_invoice(request):
+    rs = {'code' : 100, 'msg' : '','invoice_num':0}
+    if request.method == 'POST':
+        ssid = request.POST['ssid']
+        look_type = request.POST['looktype']
+        token = request.POST['token']
+        if verify_token(ssid, token):
+            if look_type == 0:
+                # 默认查询
+                pass
+            elif look_type == 1:
+                # 按种类排序查询
+                pass
+            elif look_type == 2:
+                pass
+        else:
+            pass
+    else:
+        pass
+    return HttpResponse(json.dumps(rs))
+
+@csrf_exempt
+def new_rei_basket(request):
+    rs = {}
+    if request.method == 'POST':
+        ssid = request.POST['ssid']
+        token = request.POST['token']
+        name = request.POST['name']
+        if verify_token(ssid, token):
+            if can_new_basket():
+                morder = Morder(name=name, re_datetime=None)
+                morder.save()
+                rs = {'code': 100, 'msg':'Created successfully'}
+            else:
+                rs = {'code': 102, 'msg':'There is already a reimbursement list'}
+        else:
+            pass
+    else:
+        pass
+    return HttpResponse(json.dumps(rs))
+    

@@ -21,7 +21,5 @@ urlpatterns = [
     # path('admin/', admin.site.urls),
     path('signup/', view.signup),
     path('signin/', view.signin),
-    path('verify/', view.verify),
-
-    
+    path('verify/', view.verify),    
 ]
