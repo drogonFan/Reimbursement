@@ -71,7 +71,4 @@ class Email163(object):
 
 
     def new_thread_sendemail(self, receivers, link):
-        try:
-            _thread.start_new_thread(sendEmail, (receivers, link))
-        except:
-            print("error")
+        _thread.start_new_thread(sendEmail, (receivers, link))
