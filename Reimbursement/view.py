@@ -102,6 +102,7 @@ def verify(request):
     response["Access-Control-Allow-Credentials"] = "true"
     response["Access-Control-Allow-Methods"] = "GET,POST"
     response["Access-Control-Allow-Headers"] = "Origin,Content-Type,Cookie,Accept,Token"
+    # 重定向到登录页面
     return response
 
 @csrf_exempt
@@ -148,7 +149,7 @@ def look_invoice(request):
             infos = []
             if look_type == 0:
                 # 查询我的所有, 按发票号排序
-                infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status__in=[0, 1, 2, 3]).order_by('status', 'inum')
+                infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).order_by('status', 'inum')
             elif look_type == 1:
                 # 查询我的发票, 按发票种类排序
                 infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status__in=[0, 1, 2]).order_by('status', 'categoryid')
@@ -173,35 +174,37 @@ def look_invoice(request):
             elif look_type == 8 and morder_id != 0:
                 # 查询一次报销表单里的所有发票，按种类计算和
                 infos = Binding.objects.filter(morderid = Morder.objects.get(morderid=morder_id)).invoiceid_set.all().values('categoryid').annotate(dcount=Count("inum"), totmoney=Sum("money"))
-
             else:
                 pass
             data = []
             if look_type == 7:
                 for info in infos:
-                    record = {}
-                    record['username'] = info.userid.name
-                    record['dcount'] = info.dcount
-                    record['sum'] = info.totmoney
+                    record = {
+                        'username' : info.userid.name,
+                        'dcount' : info.dcount,
+                        'sum' : round(float(info.totmoney), 2)
+                    }
                     data.append(record)
             elif look_type == 8:
                 for info in infos:
-                    record = {}
-                    record['category'] = info.categoryid.name
-                    record['dcount'] = info.dcount
-                    record['sum'] = info.totmoney
+                    record = {
+                        'category' : info.categoryid.name,
+                        'dcount' : info.dcount,
+                        'sum' : round(float(info.totmoney), 2)
+                    }
                     data.append(record)
             else:
                 for info in infos:
-                    record = {}
-                    record['inum'] = info.inum
-                    record['name'] = info.userid.name
-                    record['category'] = info.categoryid.name
-                    record['money'] = info.money
-                    record['description'] = info.description
-                    record['status'] = info.status
-                    record['application_datetime'] = info.application_datetime
-                    record['re_datetime'] = info.re_datetime
+                    record = {
+                        'inum' : info.inum,
+                        'name' : info.userid.name,
+                        'category' : info.categoryid.name,
+                        'money' : round(float(info.money), 2),
+                        'description' : info.description,
+                        'status' : info.status,
+                        'application_datetime' : info.application_datetime.strftime('%Y-%m-%d %H:%M:%S'),
+                        're_datetime' : info.re_datetime.strftime('%Y-%m-%d %H:%M:%S'),
+                    }
                     data.append(record)
             rs = {'code' : 100, 'msg' : 'search successful','datas':data}
         else:
@@ -421,6 +424,58 @@ def over_basket(request):
             rs = {'code':101, 'msg':'Incorrect token, access denied', 'datas':[]}
     else:
         rs =  {'code' : 109, 'msg' : 'Not accept get request', 'datas':[]}
+    response = HttpResponse(json.dumps(rs))
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Credentials"] = "true"
+    response["Access-Control-Allow-Methods"] = "GET,POST"
+    response["Access-Control-Allow-Headers"] = "Origin,Content-Type,Cookie,Accept,Token"
+    return response
+
+@csrf_exempt
+def get_invoicet_info(request):
+    rs = {}
+    if request.method == 'POST':
+        ssid = request.POST['ssid']
+        token = request.POST['token']
+        inum = request.POST['inum']
+        if verify_token(ssid, token):
+            info = Invoice.objects.filter(inum=inum)[0]
+            record = {
+                'inum' : info.inum,
+                'name' : info.userid.name,
+                'category' : info.categoryid.name,
+                'money' : round(float(info.money), 2),
+                'description' : info.description,
+                'status' : info.status,
+                'application_datetime' : info.application_datetime.strftime('%Y-%m-%d %H:%M:%S'),
+                're_datetime' : info.re_datetime.strftime('%Y-%m-%d %H:%M:%S'),
+            }
+            rs = {'code':100, 'msg': 'Successfully', 'datas' : record}
+        else:
+            rs = {'code':101, 'msg':'Incorrect token, access denied', 'datas' : {}}
+    else:
+        rs =  {'code' : 109, 'msg' : 'Not accept get request', 'datas' : {}}
+    response = HttpResponse(json.dumps(rs))
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Credentials"] = "true"
+    response["Access-Control-Allow-Methods"] = "GET,POST"
+    response["Access-Control-Allow-Headers"] = "Origin,Content-Type,Cookie,Accept,Token"
+    return response
+
+@csrf_exempt
+def del_invoicet(request):
+    rs = {}
+    if request.method == 'POST':
+        ssid = request.POST['ssid']
+        token = request.POST['token']
+        inum = request.POST['inum']
+        if verify_token(ssid, token):
+            info = Invoice.objects.filter(inum=inum).delete()
+            rs = {'code':100, 'msg': 'Successfully'}
+        else:
+            rs = {'code':101, 'msg':'Incorrect token, access denied'}
+    else:
+        rs =  {'code' : 109, 'msg' : 'Not accept get request'}
     response = HttpResponse(json.dumps(rs))
     response["Access-Control-Allow-Origin"] = "*"
     response["Access-Control-Allow-Credentials"] = "true"

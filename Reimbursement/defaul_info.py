@@ -28,7 +28,7 @@ DEFAULT_STUDENT = {
 
 DEFAULT_ADMINSTRATOR = ['201592075']
 
-DEFAULT_SIGNUP_EMAIL_URL = 'www.oscar-lab.cn:8000/verify/?ssid='
+DEFAULT_SIGNUP_EMAIL_URL = 'www.oscar-lab.cn:9999/verify/?ssid='
 
 def verify_student(ssid, name):
     if ssid is None or name is None:
