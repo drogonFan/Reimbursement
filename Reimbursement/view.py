@@ -150,7 +150,7 @@ def look_invoice(request):
             for look_type in look_types:
                 if look_type == 0:
                     # 查询我的发票, 按发票号排序
-                    infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status__in=[0, 1, 2]).order_by('status', 'inum')
+                    infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status__in=[0, 1, 2, 3]).order_by('status', 'inum')
                 elif look_type == 1:
                     # 查询我的发票, 按发票种类排序
                     infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status__in=[0, 1, 2]).order_by('status', 'categoryid')
@@ -336,7 +336,7 @@ def refuse_invoicet(request):
             morder_id = get_basket_num()
             if morder_id != 0:
                 Invoice.objects.filter(inum=inum).update(status=2)
-                rs = {'code':100, 'msg':'Successfully added'}
+                rs = {'code':100, 'msg':'Successfully refuse'}
             else:
                 rs = {'code':103, 'msg':'There are currently no reimbursement items'}
         else:
@@ -367,6 +367,59 @@ def get_his_morder(request):
                     're_datetime': info.re_datetime,
                 })
             rs = {'code':100, 'msg':'search successful', 'datas':datas}
+        else:
+            rs = {'code':101, 'msg':'Incorrect token, access denied', 'datas':[]}
+    else:
+        rs =  {'code' : 109, 'msg' : 'Not accept get request', 'datas':[]}
+    response = HttpResponse(json.dumps(rs))
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Credentials"] = "true"
+    response["Access-Control-Allow-Methods"] = "GET,POST"
+    response["Access-Control-Allow-Headers"] = "Origin,Content-Type,Cookie,Accept,Token"
+    return response
+
+
+@csrf_exempt
+def get_all_category(request):
+    rs = {}
+    if request.method == 'POST':
+        ssid = request.POST['ssid']
+        token = request.POST['token']
+        if verify_token(ssid, token):
+            infos = Category.objects.all()
+            datas = []
+            for info in infos:
+                datas.append({
+                    'cid': info.cid,
+                    'name': info.name,
+                })
+            rs = {'code':100, 'msg':'search successful', 'datas':datas}
+        else:
+            rs = {'code':101, 'msg':'Incorrect token, access denied', 'datas':[]}
+    else:
+        rs =  {'code' : 109, 'msg' : 'Not accept get request', 'datas':[]}
+    response = HttpResponse(json.dumps(rs))
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Credentials"] = "true"
+    response["Access-Control-Allow-Methods"] = "GET,POST"
+    response["Access-Control-Allow-Headers"] = "Origin,Content-Type,Cookie,Accept,Token"
+    return response
+
+@csrf_exempt
+def over_basket(request):
+    rs = {}
+    if request.method == 'POST':
+        ssid = request.POST['ssid']
+        token = request.POST['token']
+        if verify_token(ssid, token):
+            morder_id = get_basket_num()
+            if morder_id != 0:
+                dtime = timezone.now
+                Morder.objects.filter(mid=morder_id).update(re_datetime=dtime)
+                Binding.objects.filter(morderid = Morder.objects.get(morderid=morder_id)).invoiceid_set.all().update(re_datetime=dtime)
+                rs = {'code':100, 'msg':'Successfully'}
+            else:
+                rs = {'code':103, 'msg':'There are currently no reimbursement items'}
         else:
             rs = {'code':101, 'msg':'Incorrect token, access denied', 'datas':[]}
     else:

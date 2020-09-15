@@ -29,5 +29,6 @@ urlpatterns = [
     path('modify_invoice/', view.modify_invoice),
     path('re_apply_invoicet/', view.re_apply_invoicet),    
     path('refuse_invoicet/', view.refuse_invoicet),
-    path('get_his_morder/', view.get_his_morder),   
+    path('get_his_morder/', view.get_his_morder), 
+    path('get_all_category/', view.get_all_category),  
 ]

@@ -65,9 +65,3 @@ class Email163(object):
             smtpObj.sendmail(DEFAULT_SENDER, receivers, msg.as_string())  # 发送
         except smtplib.SMTPException as e:
             print(e)
-
-    def new_thread_sendemail(self, receivers, link):
-        try:
-            _thread.start_new_thread(self.sendEmail, (receivers, link))
-        except:
-            pass
