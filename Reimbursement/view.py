@@ -43,7 +43,7 @@ def signup(request):
     else: 
         rs = {'code': 109, 'msg': 'Not accept get request'}
     response = HttpResponse(json.dumps(rs))
-    response["Access-Control-Allow-Origin"] = "http://www.oscar-lab.cn:9999"
+    response["Access-Control-Allow-Origin"] = "*"
     response["Access-Control-Allow-Credentials"] = "true"
     response["Access-Control-Allow-Methods"] = "GET,POST"
     response["Access-Control-Allow-Headers"] = "Origin,Content-Type,Cookie,Accept,Token"

@@ -29,6 +29,8 @@ class Email163(object):
 
     @classmethod
     def instance(cls, *args, **kwargs):
+        import sys,os
+        print(os.getcwd())
         if not hasattr(Email163, '_instance'):
             with Email163._instance_lock:   # 保证线程安全
                 if not hasattr(Email163, '_instance'):
@@ -36,8 +38,6 @@ class Email163(object):
         return Email163._instance
 
     def sendEmail(self, receivers, link):
-        import sys,os
-        print(os.getcwd())
         with open(DEFAULT_MAIL_HTML, 'r', encoding='utf-8') as f:
             mail_body = f.read()
 
