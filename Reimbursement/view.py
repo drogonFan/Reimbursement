@@ -10,11 +10,12 @@ import django.utils.timezone as timezone
 import copy
 import time
 import random
+from django.db.models import Sum , Count# 引入
 
 from data.models import Category, Student, Morder, Invoice, Binding
 from Reimbursement.defaul_info import verify_student, DEFAULT_ADMINSTRATOR, DEFAULT_SIGNUP_EMAIL_URL
 from Reimbursement.toolkit import password_hash, validate_password
-from Reimbursement.mredis import add_student_info, get_student_info, get_token, verify_token, get_invoice_num, can_new_basket
+from Reimbursement.mredis import *
 from Reimbursement.wangyi_email import Email163
 
 @csrf_exempt
@@ -97,37 +98,97 @@ def new_invoice(request):
         description = request.POST['description']
         if verify_token(ssid, token):
             invoice_num = get_invoice_num()
-            invoice = Invoice(inum=invoice_num, categoryid=categoryid, 
-                                userid=ssid, money=money, description=description,
-                                status=0, application_datetime=timezone.now, re_datetime=None)
+            invoice = Invoice(categoryid=Category.objects.get(cid = categoryid), 
+                                userid=Student.objects.get(ssid = ssid), 
+                                inum=invoice_num, money=money, 
+                                description=description,status=0)
             invoice.save()
             rs = {'code' : 100, 'msg' : 'Added successfully', 'invoice_num':invoice_num}
         else:
-            rs = {'code' : 100, 'msg' : 'Incorrect token, access denied', 'invoice_num':0}
+            rs = {'code' : 101, 'msg' : 'Incorrect token, access denied', 'invoice_num':0}
     else:
         rs = {'code' : 109, 'msg' : 'Not accept get request', 'invoice_num':0}
     return HttpResponse(json.dumps(rs))
 
 @csrf_exempt
 def look_invoice(request):
-    rs = {'code' : 100, 'msg' : '','invoice_num':0}
+    rs = {'code' : 100, 'msg' : '','datas':[]}
     if request.method == 'POST':
         ssid = request.POST['ssid']
-        look_type = request.POST['looktype']
+        look_types = request.POST['looktypes']
+        passed = request.POST['passed']
         token = request.POST['token']
         if verify_token(ssid, token):
-            if look_type == 0:
-                # 默认查询
-                pass
-            elif look_type == 1:
-                # 按种类排序查询
-                pass
-            elif look_type == 2:
-                pass
+            datas = {}
+            if passed is True:
+                morder_id = int(request.POST['mid'])
+            else:
+                morder_id = get_basket_num()
+            infos = []
+            for look_type in look_types:
+                if look_type == 0:
+                    # 查询我的发票, 按发票号排序
+                    infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status__in=[0, 1, 2]).order_by('status', 'inum')
+                elif look_type == 1:
+                    # 查询我的发票, 按发票种类排序
+                    infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status__in=[0, 1, 2]).order_by('status', 'categoryid')
+                elif look_type == 2:
+                    # 查询我已报销的发票, 按发票号排序
+                    infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status=3).order_by('status', 'inum')
+                elif look_type == 3:
+                    # 查询我已报销的发票, 按发票种类排序
+                    infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status=3).order_by('status', 'categoryid')
+                elif look_type == 4:
+                    # 查询所有未报销的发票
+                    infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status=0).order_by('inum')            
+                elif look_type == 5 and morder_id != 0:
+                    # 查询一次报销表单里的所有发票，按发票号排序
+                    infos = Binding.objects.filter(morderid = Morder.objects.get(morderid=morder_id)).invoiceid_set.all().order_by('inum')
+                elif look_type == 6 and morder_id != 0:
+                    # 查询一次报销表单里的所有发票，按种类排序
+                    infos = Binding.objects.filter(morderid = Morder.objects.get(morderid=morder_id)).invoiceid_set.all().order_by('categoryid')
+                elif look_type == 7 and morder_id != 0:
+                    # 查询一次报销表单里的所有发票，按人名计算和
+                    infos = Binding.objects.filter(morderid = Morder.objects.get(morderid=morder_id)).invoiceid_set.all().values('userid').annotate(dcount=Count("inum"), totmoney=Sum("money"))
+                elif look_type == 8 and morder_id != 0:
+                    # 查询一次报销表单里的所有发票，按种类计算和
+                    infos = Binding.objects.filter(morderid = Morder.objects.get(morderid=morder_id)).invoiceid_set.all().values('categoryid').annotate(dcount=Count("inum"), totmoney=Sum("money"))
+                
+                else:
+                    pass
+                data = []
+                if look_type == 7:
+                    for info in infos:
+                        record = {}
+                        record['username'] = info.userid.name
+                        record['dcount'] = info.dcount
+                        record['sum'] = info.totmoney
+                        data.append(record)
+                elif look_type == 8:
+                    for info in infos:
+                        record = {}
+                        record['category'] = info.categoryid.name
+                        record['dcount'] = info.dcount
+                        record['sum'] = info.totmoney
+                        data.append(record)
+                else:
+                    for info in infos:
+                        record = {}
+                        record['inum'] = info.inum
+                        record['name'] = info.userid.name
+                        record['category'] = info.categoryid.name
+                        record['money'] = info.money
+                        record['description'] = info.description
+                        record['status'] = info.status
+                        record['application_datetime'] = info.application_datetime
+                        record['re_datetime'] = info.re_datetime
+                        data.append(record)
+                datas[look_type] = data
+            rs = {'code' : 100, 'msg' : 'search successful','datas':datas}
         else:
-            pass
+            rs = {'code' : 101, 'msg' : 'Incorrect token, access denied','datas':[]}
     else:
-        pass
+        rs = {'code' : 109, 'msg' : 'Not accept get request','datas':[]}
     return HttpResponse(json.dumps(rs))
 
 @csrf_exempt
@@ -139,14 +200,123 @@ def new_rei_basket(request):
         name = request.POST['name']
         if verify_token(ssid, token):
             if can_new_basket():
-                morder = Morder(name=name, re_datetime=None)
+                morder = Morder(name=name)
                 morder.save()
+                record_basket_num(morder.mid)
                 rs = {'code': 100, 'msg':'Created successfully'}
             else:
                 rs = {'code': 102, 'msg':'There is already a reimbursement list'}
         else:
-            pass
+            rs = {'code': 101, 'msg':'Incorrect token, access denied'}
     else:
-        pass
+        rs = {'code' : 109, 'msg' : 'Not accept get request'}
     return HttpResponse(json.dumps(rs))
-    
+
+@csrf_exempt
+def put_invoice_tobasket(request):
+    rs = {}
+    if request.method == 'POST':
+        ssid = request.POST['ssid']
+        token = request.POST['token']
+        inum = request.POST['inum']
+        if verify_token(ssid, token):
+            morder_id = get_basket_num()
+            if morder_id != 0:
+                Invoice.objects.filter(inum=inum).update(status=2)
+                binding = Binding(invoiceid=Invoice.objects.get(inum=inum),
+                                    morderid=Morder.objects.get(mid=morder_id))
+                binding.save()
+                rs = {'code':100, 'msg':'Successfully added'}
+            else:
+                rs = {'code':103, 'msg':'There are currently no reimbursement items'}
+        else:
+            rs = {'code':101, 'msg':'Incorrect token, access denied'}
+    else:
+        rs =  {'code' : 109, 'msg' : 'Not accept get request'}
+    return HttpResponse(json.dumps(rs))
+
+@csrf_exempt
+def modify_invoice(request):
+    rs = {'code' : 100, 'msg' : '','datas':[]}
+    if request.method == 'POST':
+        ssid = request.POST['ssid']
+        token = request.POST['token']
+        inum = request.POST['inum']
+        categoryid = int(request.POST['categoryid'])
+        money = round(float(request.POST['money']), 2)
+        description = request.POST['description']
+        if verify_token(ssid, token):
+            invoice = Invoice.objects.get(inum=inum)
+            invoice.categoryid = Category.objects.get(cid=categoryid)
+            invoice.money = money
+            invoice.description = description
+            invoice.save()
+            rs = {'code':100, 'msg':'Successfully modify'}
+        else:
+            rs = {'code':101, 'msg':'Incorrect token, access denied'}
+    else:
+        rs =  {'code' : 109, 'msg' : 'Not accept get request'}
+    return HttpResponse(json.dumps(rs))
+
+@csrf_exempt
+def re_apply_invoicet(request):
+    rs = {}
+    if request.method == 'POST':
+        ssid = request.POST['ssid']
+        token = request.POST['token']
+        inum = request.POST['inum']
+        if verify_token(ssid, token):
+            morder_id = get_basket_num()
+            if morder_id != 0:
+                Invoice.objects.filter(inum=inum).update(status=0)
+                rs = {'code':100, 'msg':'Successfully added'}
+            else:
+                rs = {'code':103, 'msg':'There are currently no reimbursement items'}
+        else:
+            rs = {'code':101, 'msg':'Incorrect token, access denied'}
+    else:
+        rs =  {'code' : 109, 'msg' : 'Not accept get request'}
+    return HttpResponse(json.dumps(rs))
+
+@csrf_exempt
+def refuse_invoicet(request):
+    rs = {}
+    if request.method == 'POST':
+        ssid = request.POST['ssid']
+        token = request.POST['token']
+        inum = request.POST['inum']
+        if verify_token(ssid, token):
+            morder_id = get_basket_num()
+            if morder_id != 0:
+                Invoice.objects.filter(inum=inum).update(status=2)
+                rs = {'code':100, 'msg':'Successfully added'}
+            else:
+                rs = {'code':103, 'msg':'There are currently no reimbursement items'}
+        else:
+            rs = {'code':101, 'msg':'Incorrect token, access denied'}
+    else:
+        rs =  {'code' : 109, 'msg' : 'Not accept get request'}
+    return HttpResponse(json.dumps(rs))
+
+@csrf_exempt
+def get_his_morder(request):
+    rs = {}
+    if request.method == 'POST':
+        ssid = request.POST['ssid']
+        token = request.POST['token']
+        if verify_token(ssid, token):
+            infos = Morder.objects.all().order_by('start_datetime')
+            datas = []
+            for info in infos:
+                datas.append({
+                    'mid': info.mid,
+                    'name': info.name,
+                    'start_datetime': info.start_datetime,
+                    're_datetime': info.re_datetime,
+                })
+            rs = {'code':100, 'msg':'search successful', 'datas':datas}
+        else:
+            rs = {'code':101, 'msg':'Incorrect token, access denied', 'datas':[]}
+    else:
+        rs =  {'code' : 109, 'msg' : 'Not accept get request', 'datas':[]}
+    return HttpResponse(json.dumps(rs))

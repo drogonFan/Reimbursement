@@ -50,8 +50,14 @@ def get_invoice_num():
     return con.incr(DEFAULT_INVOICE_NUM)
 
 def can_new_basket():
-    if con.get(DEFAULT_BASKET) == 0:
-        con.set(DEFAULT_BASKET, 1)
+    num = get_basket_num()
+    if num == 0:
         return True
     else:
         return False
+
+def get_basket_num():
+    con.get(DEFAULT_BASKET)
+
+def record_basket_num(num):
+    con.set(DEFAULT_BASKET, num)

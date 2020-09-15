@@ -35,7 +35,7 @@ class Invoice(models.Model):
     userid = models.ForeignKey(Student, on_delete=models.CASCADE)
     money = models.DecimalField(max_digits= 6, decimal_places=2)
     description = models.CharField(max_length=100)
-    # 0 提交 1 已报销 2 被撤回
+    # 0 提交 1 报销中 2 被撤回 # 3 已报销
     status = models.IntegerField()
     application_datetime = models.DateTimeField('申请时间', default = timezone.now)
     re_datetime = models.DateTimeField('报销时间', default = timezone.now)
