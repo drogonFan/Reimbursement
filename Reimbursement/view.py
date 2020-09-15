@@ -42,7 +42,12 @@ def signup(request):
             rs = {'code' : code, 'msg' : msg}
     else: 
         rs = {'code': 109, 'msg': 'Not accept get request'}
-    return HttpResponse(json.dumps(rs))
+    response = HttpResponse(json.dumps(rs))
+    response["Access-Control-Allow-Origin"] = "http://www.oscar-lab.cn:9999"
+    response["Access-Control-Allow-Credentials"] = "true"
+    response["Access-Control-Allow-Methods"] = "GET,POST"
+    response["Access-Control-Allow-Headers"] = "Origin,Content-Type,Cookie,Accept,Token"
+    return response
 
 @csrf_exempt
 def signin(request):

@@ -36,6 +36,8 @@ class Email163(object):
         return Email163._instance
 
     def sendEmail(self, receivers, link):
+        import sys,os
+        print(os.getcwd())
         with open(DEFAULT_MAIL_HTML, 'r', encoding='utf-8') as f:
             mail_body = f.read()
 
