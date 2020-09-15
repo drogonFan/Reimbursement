@@ -137,76 +137,73 @@ def look_invoice(request):
     rs = {'code' : 100, 'msg' : '','datas':[]}
     if request.method == 'POST':
         ssid = request.POST['ssid']
-        look_types = request.POST['looktypes']
+        look_type = request.POST['looktype']
         passed = request.POST['passed']
         token = request.POST['token']
         if verify_token(ssid, token):
-            datas = {}
             if passed is True:
                 morder_id = int(request.POST['mid'])
             else:
                 morder_id = get_basket_num()
             infos = []
-            for look_type in look_types:
-                if look_type == 0:
-                    # 查询我的发票, 按发票号排序
-                    infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status__in=[0, 1, 2, 3]).order_by('status', 'inum')
-                elif look_type == 1:
-                    # 查询我的发票, 按发票种类排序
-                    infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status__in=[0, 1, 2]).order_by('status', 'categoryid')
-                elif look_type == 2:
-                    # 查询我已报销的发票, 按发票号排序
-                    infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status=3).order_by('status', 'inum')
-                elif look_type == 3:
-                    # 查询我已报销的发票, 按发票种类排序
-                    infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status=3).order_by('status', 'categoryid')
-                elif look_type == 4:
-                    # 查询所有未报销的发票
-                    infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status=0).order_by('inum')
-                elif look_type == 5 and morder_id != 0:
-                    # 查询一次报销表单里的所有发票，按发票号排序
-                    infos = Binding.objects.filter(morderid = Morder.objects.get(morderid=morder_id)).invoiceid_set.all().order_by('inum')
-                elif look_type == 6 and morder_id != 0:
-                    # 查询一次报销表单里的所有发票，按种类排序
-                    infos = Binding.objects.filter(morderid = Morder.objects.get(morderid=morder_id)).invoiceid_set.all().order_by('categoryid')
-                elif look_type == 7 and morder_id != 0:
-                    # 查询一次报销表单里的所有发票，按人名计算和
-                    infos = Binding.objects.filter(morderid = Morder.objects.get(morderid=morder_id)).invoiceid_set.all().values('userid').annotate(dcount=Count("inum"), totmoney=Sum("money"))
-                elif look_type == 8 and morder_id != 0:
-                    # 查询一次报销表单里的所有发票，按种类计算和
-                    infos = Binding.objects.filter(morderid = Morder.objects.get(morderid=morder_id)).invoiceid_set.all().values('categoryid').annotate(dcount=Count("inum"), totmoney=Sum("money"))
+            if look_type == 0:
+                # 查询我的所有, 按发票号排序
+                infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status__in=[0, 1, 2, 3]).order_by('status', 'inum')
+            elif look_type == 1:
+                # 查询我的发票, 按发票种类排序
+                infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status__in=[0, 1, 2]).order_by('status', 'categoryid')
+            elif look_type == 2:
+                # 查询我已报销的发票, 按发票号排序
+                infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status=3).order_by('status', 'inum')
+            elif look_type == 3:
+                # 查询我已报销的发票, 按发票种类排序
+                infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status=3).order_by('status', 'categoryid')
+            elif look_type == 4:
+                # 查询所有未报销的发票
+                infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status=0).order_by('inum')
+            elif look_type == 5 and morder_id != 0:
+                # 查询一次报销表单里的所有发票，按发票号排序
+                infos = Binding.objects.filter(morderid = Morder.objects.get(morderid=morder_id)).invoiceid_set.all().order_by('inum')
+            elif look_type == 6 and morder_id != 0:
+                # 查询一次报销表单里的所有发票，按种类排序
+                infos = Binding.objects.filter(morderid = Morder.objects.get(morderid=morder_id)).invoiceid_set.all().order_by('categoryid')
+            elif look_type == 7 and morder_id != 0:
+                # 查询一次报销表单里的所有发票，按人名计算和
+                infos = Binding.objects.filter(morderid = Morder.objects.get(morderid=morder_id)).invoiceid_set.all().values('userid').annotate(dcount=Count("inum"), totmoney=Sum("money"))
+            elif look_type == 8 and morder_id != 0:
+                # 查询一次报销表单里的所有发票，按种类计算和
+                infos = Binding.objects.filter(morderid = Morder.objects.get(morderid=morder_id)).invoiceid_set.all().values('categoryid').annotate(dcount=Count("inum"), totmoney=Sum("money"))
 
-                else:
-                    pass
-                data = []
-                if look_type == 7:
-                    for info in infos:
-                        record = {}
-                        record['username'] = info.userid.name
-                        record['dcount'] = info.dcount
-                        record['sum'] = info.totmoney
-                        data.append(record)
-                elif look_type == 8:
-                    for info in infos:
-                        record = {}
-                        record['category'] = info.categoryid.name
-                        record['dcount'] = info.dcount
-                        record['sum'] = info.totmoney
-                        data.append(record)
-                else:
-                    for info in infos:
-                        record = {}
-                        record['inum'] = info.inum
-                        record['name'] = info.userid.name
-                        record['category'] = info.categoryid.name
-                        record['money'] = info.money
-                        record['description'] = info.description
-                        record['status'] = info.status
-                        record['application_datetime'] = info.application_datetime
-                        record['re_datetime'] = info.re_datetime
-                        data.append(record)
-                datas[look_type] = data
-            rs = {'code' : 100, 'msg' : 'search successful','datas':datas}
+            else:
+                pass
+            data = []
+            if look_type == 7:
+                for info in infos:
+                    record = {}
+                    record['username'] = info.userid.name
+                    record['dcount'] = info.dcount
+                    record['sum'] = info.totmoney
+                    data.append(record)
+            elif look_type == 8:
+                for info in infos:
+                    record = {}
+                    record['category'] = info.categoryid.name
+                    record['dcount'] = info.dcount
+                    record['sum'] = info.totmoney
+                    data.append(record)
+            else:
+                for info in infos:
+                    record = {}
+                    record['inum'] = info.inum
+                    record['name'] = info.userid.name
+                    record['category'] = info.categoryid.name
+                    record['money'] = info.money
+                    record['description'] = info.description
+                    record['status'] = info.status
+                    record['application_datetime'] = info.application_datetime
+                    record['re_datetime'] = info.re_datetime
+                    data.append(record)
+            rs = {'code' : 100, 'msg' : 'search successful','datas':data}
         else:
             rs = {'code' : 101, 'msg' : 'Incorrect token, access denied','datas':[]}
     else:
