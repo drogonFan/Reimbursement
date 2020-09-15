@@ -70,7 +70,12 @@ def signin(request):
                 rs = {'code' : 102, 'msg' : 'wrong password', 'level' : 0, 'token': ''}
     else:
         rs = {'code': 109, 'msg': 'Not accept get request', 'level' : 0, 'token': ''}
-    return HttpResponse(json.dumps(rs))
+    response = HttpResponse(json.dumps(rs))
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Credentials"] = "true"
+    response["Access-Control-Allow-Methods"] = "GET,POST"
+    response["Access-Control-Allow-Headers"] = "Origin,Content-Type,Cookie,Accept,Token"
+    return response
 
 @csrf_exempt
 def verify(request):
@@ -91,7 +96,13 @@ def verify(request):
             rs = {'code' : 100, 'msg' : 'registration success'}
     else:
         rs = {'code': 109, 'msg': 'Not accept post request'}
-    return HttpResponse(json.dumps(rs))
+    print(rs)
+    response = HttpResponse(json.dumps(rs))
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Credentials"] = "true"
+    response["Access-Control-Allow-Methods"] = "GET,POST"
+    response["Access-Control-Allow-Headers"] = "Origin,Content-Type,Cookie,Accept,Token"
+    return response
 
 @csrf_exempt
 def new_invoice(request):
@@ -114,7 +125,12 @@ def new_invoice(request):
             rs = {'code' : 101, 'msg' : 'Incorrect token, access denied', 'invoice_num':0}
     else:
         rs = {'code' : 109, 'msg' : 'Not accept get request', 'invoice_num':0}
-    return HttpResponse(json.dumps(rs))
+    response = HttpResponse(json.dumps(rs))
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Credentials"] = "true"
+    response["Access-Control-Allow-Methods"] = "GET,POST"
+    response["Access-Control-Allow-Headers"] = "Origin,Content-Type,Cookie,Accept,Token"
+    return response
 
 @csrf_exempt
 def look_invoice(request):
@@ -195,7 +211,12 @@ def look_invoice(request):
             rs = {'code' : 101, 'msg' : 'Incorrect token, access denied','datas':[]}
     else:
         rs = {'code' : 109, 'msg' : 'Not accept get request','datas':[]}
-    return HttpResponse(json.dumps(rs))
+    response = HttpResponse(json.dumps(rs))
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Credentials"] = "true"
+    response["Access-Control-Allow-Methods"] = "GET,POST"
+    response["Access-Control-Allow-Headers"] = "Origin,Content-Type,Cookie,Accept,Token"
+    return response
 
 @csrf_exempt
 def new_rei_basket(request):
@@ -216,7 +237,12 @@ def new_rei_basket(request):
             rs = {'code': 101, 'msg':'Incorrect token, access denied'}
     else:
         rs = {'code' : 109, 'msg' : 'Not accept get request'}
-    return HttpResponse(json.dumps(rs))
+    response = HttpResponse(json.dumps(rs))
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Credentials"] = "true"
+    response["Access-Control-Allow-Methods"] = "GET,POST"
+    response["Access-Control-Allow-Headers"] = "Origin,Content-Type,Cookie,Accept,Token"
+    return response
 
 @csrf_exempt
 def put_invoice_tobasket(request):
@@ -239,7 +265,12 @@ def put_invoice_tobasket(request):
             rs = {'code':101, 'msg':'Incorrect token, access denied'}
     else:
         rs =  {'code' : 109, 'msg' : 'Not accept get request'}
-    return HttpResponse(json.dumps(rs))
+    response = HttpResponse(json.dumps(rs))
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Credentials"] = "true"
+    response["Access-Control-Allow-Methods"] = "GET,POST"
+    response["Access-Control-Allow-Headers"] = "Origin,Content-Type,Cookie,Accept,Token"
+    return response
 
 @csrf_exempt
 def modify_invoice(request):
@@ -262,7 +293,12 @@ def modify_invoice(request):
             rs = {'code':101, 'msg':'Incorrect token, access denied'}
     else:
         rs =  {'code' : 109, 'msg' : 'Not accept get request'}
-    return HttpResponse(json.dumps(rs))
+    response = HttpResponse(json.dumps(rs))
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Credentials"] = "true"
+    response["Access-Control-Allow-Methods"] = "GET,POST"
+    response["Access-Control-Allow-Headers"] = "Origin,Content-Type,Cookie,Accept,Token"
+    return response
 
 @csrf_exempt
 def re_apply_invoicet(request):
@@ -282,7 +318,12 @@ def re_apply_invoicet(request):
             rs = {'code':101, 'msg':'Incorrect token, access denied'}
     else:
         rs =  {'code' : 109, 'msg' : 'Not accept get request'}
-    return HttpResponse(json.dumps(rs))
+    response = HttpResponse(json.dumps(rs))
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Credentials"] = "true"
+    response["Access-Control-Allow-Methods"] = "GET,POST"
+    response["Access-Control-Allow-Headers"] = "Origin,Content-Type,Cookie,Accept,Token"
+    return response
 
 @csrf_exempt
 def refuse_invoicet(request):
@@ -302,7 +343,12 @@ def refuse_invoicet(request):
             rs = {'code':101, 'msg':'Incorrect token, access denied'}
     else:
         rs =  {'code' : 109, 'msg' : 'Not accept get request'}
-    return HttpResponse(json.dumps(rs))
+    response = HttpResponse(json.dumps(rs))
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Credentials"] = "true"
+    response["Access-Control-Allow-Methods"] = "GET,POST"
+    response["Access-Control-Allow-Headers"] = "Origin,Content-Type,Cookie,Accept,Token"
+    return response
 
 @csrf_exempt
 def get_his_morder(request):
@@ -325,4 +371,9 @@ def get_his_morder(request):
             rs = {'code':101, 'msg':'Incorrect token, access denied', 'datas':[]}
     else:
         rs =  {'code' : 109, 'msg' : 'Not accept get request', 'datas':[]}
-    return HttpResponse(json.dumps(rs))
+    response = HttpResponse(json.dumps(rs))
+    response["Access-Control-Allow-Origin"] = "*"
+    response["Access-Control-Allow-Credentials"] = "true"
+    response["Access-Control-Allow-Methods"] = "GET,POST"
+    response["Access-Control-Allow-Headers"] = "Origin,Content-Type,Cookie,Accept,Token"
+    return response

@@ -58,18 +58,16 @@ class Email163(object):
             img = MIMEImage(img_data)
             img.add_header('Content-ID', '<123>')
             msg.attach(img)
-
-        #try:
-        print(receivers)
-        smtpObj = smtplib.SMTP_SSL(DEFAULT_MAIL_HOST, 465)  # 启用SSL发信, 端口一般是465
-        smtpObj.login(DEFAULT_MAIL_USER, DEFAULT_MAIL_PASS)  # 登录验证
-        smtpObj.sendmail(DEFAULT_SENDER, receivers, msg.as_string())  # 发送
-        #except smtplib.SMTPException as e:
-         #   print(e)
-
+        try:
+            pass
+            smtpObj = smtplib.SMTP_SSL(DEFAULT_MAIL_HOST, 465)  # 启用SSL发信, 端口一般是465
+            smtpObj.login(DEFAULT_MAIL_USER, DEFAULT_MAIL_PASS)  # 登录验证
+            smtpObj.sendmail(DEFAULT_SENDER, receivers, msg.as_string())  # 发送
+        except smtplib.SMTPException as e:
+            print(e)
 
     def new_thread_sendemail(self, receivers, link):
-        #try:
-        _thread.start_new_thread(self.sendEmail, (receivers, link))
-        #except:
-           # print("error")
+        try:
+            _thread.start_new_thread(self.sendEmail, (receivers, link))
+        except:
+            pass
