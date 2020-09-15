@@ -27,6 +27,7 @@ def signup(request):
         email = request.POST['email']
         passward = request.POST['passward']
         code, msg = verify_student(ssid, name)
+        print(ssid, email, name, passward)
         if code == 0:
             if len(Student.objects.filter(ssid=ssid)) > 0:
                 rs =  {'code' : 104, 'msg' : 'The user is already registered'}
@@ -36,11 +37,11 @@ def signup(request):
                 add_student_info(ssid, name, email, passward)
                 # 发送邮件
                 email163 = Email163.instance()
-                email163.new_thread_sendemail(email, DEFAULT_SIGNUP_EMAIL_URL + ssid)
+                email163.sendEmail(email, DEFAULT_SIGNUP_EMAIL_URL + ssid)
                 rs =  {'code' : 100, 'msg' : 'The verification email has been sent to the target mailbox'}
         else:
             rs = {'code' : code, 'msg' : msg}
-    else: 
+    else:
         rs = {'code': 109, 'msg': 'Not accept get request'}
     response = HttpResponse(json.dumps(rs))
     response["Access-Control-Allow-Origin"] = "*"
@@ -66,8 +67,8 @@ def signin(request):
                 if ssid in DEFAULT_ADMINSTRATOR:
                     rs['level'] = 1
             else:
-                rs = {'code' : 102, 'msg' : 'wrong password', 'level' : 0, 'token': ''}        
-    else: 
+                rs = {'code' : 102, 'msg' : 'wrong password', 'level' : 0, 'token': ''}
+    else:
         rs = {'code': 109, 'msg': 'Not accept get request', 'level' : 0, 'token': ''}
     return HttpResponse(json.dumps(rs))
 
@@ -103,9 +104,9 @@ def new_invoice(request):
         description = request.POST['description']
         if verify_token(ssid, token):
             invoice_num = get_invoice_num()
-            invoice = Invoice(categoryid=Category.objects.get(cid = categoryid), 
-                                userid=Student.objects.get(ssid = ssid), 
-                                inum=invoice_num, money=money, 
+            invoice = Invoice(categoryid=Category.objects.get(cid = categoryid),
+                                userid=Student.objects.get(ssid = ssid),
+                                inum=invoice_num, money=money,
                                 description=description,status=0)
             invoice.save()
             rs = {'code' : 100, 'msg' : 'Added successfully', 'invoice_num':invoice_num}
@@ -145,7 +146,7 @@ def look_invoice(request):
                     infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status=3).order_by('status', 'categoryid')
                 elif look_type == 4:
                     # 查询所有未报销的发票
-                    infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status=0).order_by('inum')            
+                    infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status=0).order_by('inum')
                 elif look_type == 5 and morder_id != 0:
                     # 查询一次报销表单里的所有发票，按发票号排序
                     infos = Binding.objects.filter(morderid = Morder.objects.get(morderid=morder_id)).invoiceid_set.all().order_by('inum')
@@ -158,7 +159,7 @@ def look_invoice(request):
                 elif look_type == 8 and morder_id != 0:
                     # 查询一次报销表单里的所有发票，按种类计算和
                     infos = Binding.objects.filter(morderid = Morder.objects.get(morderid=morder_id)).invoiceid_set.all().values('categoryid').annotate(dcount=Count("inum"), totmoney=Sum("money"))
-                
+
                 else:
                     pass
                 data = []

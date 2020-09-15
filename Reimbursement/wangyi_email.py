@@ -13,7 +13,7 @@ from smtplib         import SMTP_SSL
 # 第三方 SMTP 服务
 DEFAULT_MAIL_HOST="smtp.163.com"                # 设置服务器
 DEFAULT_MAIL_USER="daenerystargaryen8"          # 用户名
-DEFAULT_MAIL_PASS="NPGEUZIZWHHGNMXL"            # 口令 
+DEFAULT_MAIL_PASS="NPGEUZIZWHHGNMXL"            # 口令
 
 DEFAULT_SENDER = 'daenerystargaryen8@163.com'   # 发件人邮箱(最好写全, 不然会失败)
 DEFAULT_SENDER_NAME = 'admin'
@@ -40,7 +40,6 @@ class Email163(object):
             mail_body = f.read()
 
         msg = MIMEMultipart('related')
-        message['From'] = "{}".format(DEFAULT_SENDER)
         msg['To'] = receivers
         msg['Subject'] = DEFAULT_TITLE
 
@@ -60,16 +59,17 @@ class Email163(object):
             img.add_header('Content-ID', '<123>')
             msg.attach(img)
 
-        try:
-            smtpObj = smtplib.SMTP_SSL(DEFAULT_MAIL_HOST, 465)  # 启用SSL发信, 端口一般是465
-            smtpObj.login(DEFAULT_MAIL_USER, DEFAULT_MAIL_PASS)  # 登录验证
-            smtpObj.sendmail(DEFAULT_SENDER, receivers, msg.as_string())  # 发送
-        except smtplib.SMTPException as e:
-            print(e)
+        #try:
+        print(receivers)
+        smtpObj = smtplib.SMTP_SSL(DEFAULT_MAIL_HOST, 465)  # 启用SSL发信, 端口一般是465
+        smtpObj.login(DEFAULT_MAIL_USER, DEFAULT_MAIL_PASS)  # 登录验证
+        smtpObj.sendmail(DEFAULT_SENDER, receivers, msg.as_string())  # 发送
+        #except smtplib.SMTPException as e:
+         #   print(e)
 
 
     def new_thread_sendemail(self, receivers, link):
-        try:
-            _thread.start_new_thread(self.sendEmail, (receivers, link))
-        except:
-            print("error")
+        #try:
+        _thread.start_new_thread(self.sendEmail, (receivers, link))
+        #except:
+           # print("error")
