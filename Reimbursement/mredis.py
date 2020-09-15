@@ -24,9 +24,9 @@ def add_student_info(ssid, name, email, passward):
 
 def get_student_info(ssid):
     rs = con.hget(DEFAULT_INFO_KEY, ssid)
-    if rs is not None:        
+    if rs is not None:
         infos = json.loads(rs)
-        return rs['name'], rs['email'], rs['passward']
+        return infos['name'], infos['email'], infos['passward']
     else:
         return []
 
