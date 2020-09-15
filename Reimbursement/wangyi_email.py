@@ -29,8 +29,6 @@ class Email163(object):
 
     @classmethod
     def instance(cls, *args, **kwargs):
-        import sys,os
-        print(os.getcwd())
         if not hasattr(Email163, '_instance'):
             with Email163._instance_lock:   # 保证线程安全
                 if not hasattr(Email163, '_instance'):
@@ -71,4 +69,7 @@ class Email163(object):
 
 
     def new_thread_sendemail(self, receivers, link):
-        _thread.start_new_thread(sendEmail, (receivers, link))
+        try:
+            _thread.start_new_thread(self.sendEmail, (receivers, link))
+        except:
+            print("error")
