@@ -24,9 +24,11 @@ DEFAULT_STUDENT = {
     '22017065' : '陈乐',
     '22017017' : '卢凌',
     '22017061' : '陈时非',
+
+    '21592075' : '管理员',
 }
 
-DEFAULT_ADMINSTRATOR = ['201592075']
+DEFAULT_ADMINSTRATOR = ['21592075']
 
 DEFAULT_SIGNUP_EMAIL_URL = 'www.oscar-lab.cn:9999/verify/?ssid='
 

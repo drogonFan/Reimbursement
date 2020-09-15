@@ -138,7 +138,7 @@ def look_invoice(request):
     rs = {'code' : 100, 'msg' : '','datas':[]}
     if request.method == 'POST':
         ssid = request.POST['ssid']
-        look_type = request.POST['looktype']
+        look_type = int(request.POST['looktype'])
         passed = request.POST['passed']
         token = request.POST['token']
         if verify_token(ssid, token):
