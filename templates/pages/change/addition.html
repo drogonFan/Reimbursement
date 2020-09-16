@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Stellar Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="../../vendors/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="../../vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="../../css/style.css" <!-- End layout styles -->
+    <link rel="shortcut icon" href="../../images/favicon.png" />
+  </head>
+  <body>
+    <div class="container-scroller">
+  <!-- partial:partials/_navbar.html -->
+  <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+	<div class="navbar-brand-wrapper d-flex align-items-center">
+	  
+		<img src="../../images/logo.svg" alt="logo" class="logo-dark" />
+	  
+	  
+	</div>
+	<div class="navbar-menu-wrapper d-flex align-items-center flex-grow-1">
+			<h5 class="mb-0 font-weight-medium d-none d-lg-flex">oscar财务报销系统系统</h5>
+			<ul class="navbar-nav navbar-nav-right ml-auto">
+			  </li>
+			  <li class="nav-item dropdown d-none d-xl-inline-flex user-dropdown">
+				  <p class="font-weight-normal" id="username1"> 姓名 </p>
+			  </li>
+			</ul>
+		  </div>
+  </nav>
+  <!-- partial -->
+  <div class="container-fluid page-body-wrapper">
+	<!-- partial:partials/_sidebar.html -->
+	<nav class="sidebar sidebar-offcanvas" id="sidebar">
+		<ul class="nav">
+		  <li class="nav-item nav-profile">
+			  <div class="text-wrapper">
+				
+			  </div>
+			
+		  </li>
+		  <li class="nav-item nav-category"><span class="nav-link">个人报销</span></li>
+		  <li class="nav-item">
+			<a class="nav-link" data-toggle="collapse" id="all" aria-expanded="false" aria-controls="ui-basic">
+			  <span class="menu-title">全部报销</span>
+			</a>
+		  </li>
+		  <li class="nav-item">
+			  <a class="nav-link" id = "add">
+				  <span class="menu-title">申请报销</span>
+			  </a>
+			  
+			</li>
+		  <!--<li class="nav-item">
+			<a class="nav-link" href="pages/tables/basic-table.html">
+			  <span class="menu-title">Tables</span>
+			  <i class="icon-grid menu-icon"></i>
+			</a>
+		  </li>-->
+		</ul>
+	  </nav>
+	<!-- partial -->
+	<div class="main-panel">
+			<div class="content-wrapper">
+			  <div class="row">
+		<div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">报销申请</h4>
+                    <p class="card-description"> 添加信息 </p>
+                    <form class="forms-sample">
+					  <div class="form-group">
+						<label for="exampleInputEmail3">类别序号（1.图书 2.打车 3.电子设备 4.快递 5.审稿费 6.冲印费 7.办公用品）</label>
+                        <input type="text" class="form-control" id="categoryid">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputEmail3">金额</label>
+                        <input type="text" class="form-control" id="money">
+					  </div>
+					  <div class="form-group">
+                        <label for="exampleInputPassword4">描述</label>
+                        <input type="text" class="form-control" id="description">
+					  </div>
+                      <button type="button" class="btn btn-primary mr-2" onclick="datasubmit()">添加</button>
+					</form>
+                  </div>
+                </div>
+              </div>
+	  <!-- content-wrapper ends -->
+	  <!-- partial:partials/_footer.html -->
+	  <footer class="footer">
+		<div class="d-sm-flex justify-content-center justify-content-sm-between">
+		  <span class="text-muted text-center text-sm-left d-block d-sm-inline-block"></span>
+		</div>
+	  </footer>
+	  <!-- partial -->
+	</div>
+	<!-- main-panel ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+<!-- plugins:js -->
+<script src="../../js/jquery.min.js"></script>
+
+<!-- End custom js for this page -->
+<script>
+	$("#userout").click(function(){
+			$.ajax({
+					type:"POST",
+					dataType:"json",
+					url:"DeleteCriminal",
+					data:{"userout":"I want out"},
+					headers:{
+                      'Content-Type':'application/json',
+					  //'access-token':currentCookie,
+            		},
+					success:function(result){
+						if(result.code == 100){
+							window.location.href = "pages/samples/login.html";
+						}
+						else{
+							alert("登出失败");
+						}
+					},
+					error:function(){
+							alert("向后端请求失败");
+					}
+			})
+		})
+		$("#add").click(function(){
+			var url = location.href;
+			var num = url.indexOf("?");
+			var str = url.substr(num+1);
+			var arr = str.split("+");
+			console.log(arr)
+			var ssid = arr[0];
+			var token = arr[1];
+			window.location.href = "addition.html?"+ssid+"+"+token
+		})
+		$("#all").click(function(){
+			var url = location.href;
+			var num = url.indexOf("?");
+			var str = url.substr(num+1);
+			var arr = str.split("+");
+			console.log(arr)
+			var ssid = arr[0];
+			var token = arr[1];
+			window.location.href = "../../index.html?"+ssid+"+"+token
+		})
+	function datasubmit(){
+		var url = location.href;
+		var num = url.indexOf("?");
+		var str = url.substr(num+1);
+		var arr = str.split("+");
+		console.log(arr)
+		var ssid = arr[0];
+		var token = arr[1];
+		console.log(token)
+		var money = $("#money").val();
+		var description = $("#description").val();
+		var categoryid = $("#categoryid").val();
+		if(!categoryid){
+						alert("编号必填!");
+						$("#categoryid").focus();//获取焦点
+						return ;
+					}
+		if(!money){
+						alert("金额必填!");
+						$("#money").focus();//获取焦点
+						return ;
+					}
+		if(!description){
+						alert("描述必填!");
+						$("#description").focus();//获取焦点
+						return ;
+					}
+		$.ajax({
+		type:"POST",
+		dateType:"json",
+		url:"http://www.oscar-lab.cn:9999/new_invoice/",
+		data:{  ssid:ssid,
+				categoryid:categoryid,
+				money:money,
+				description:description,
+				token:token},
+		success:function(data){
+			console.log(data);
+			var obj = JSON.parse(data);
+			console.log(obj.code);
+			if(obj.code == 100){
+				alert("添加成功");
+			}else{
+				alert("添加失败");
+			}
+		},
+		error:function(){
+			alert("向后端添加失败");
+		}
+		});
+		}
+		$(document).ready(function(){
+			$.ajax({
+				type:"get",
+				url:"http://47.95.147.13:9999/getUsername/",
+				data:{ssid:ssid},
+				dataType:"json",
+				headers:{
+                      'Content-Type':'application/json',
+					 'access-token':currentCookie,
+            	},
+				success:function(data){
+					$("#sswusername1").text(data)
+					$("#sswusername2").text(data)
+				},
+				error:function(data){
+					alert("NULL")
+				}
+			});
+		})
+</script>
+</body>
+</html>

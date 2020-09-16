@@ -38,7 +38,7 @@ def get_token(ssid):
     con.set(DEFAULT_TOKEN + ssid, token)
     con.expire(DEFAULT_TOKEN + ssid, 3600 * 2)
     return token
-    
+
 def verify_token(ssid, token):
     save_token = con.get(DEFAULT_TOKEN + ssid).decode('utf-8')
     if save_token == None or len(save_token) == 0:
@@ -61,3 +61,6 @@ def get_basket_num():
 
 def record_basket_num(num):
     con.set(DEFAULT_BASKET, num)
+
+def rest_basket_num(num):
+    con.set(DEFAULT_BASKET, 0)

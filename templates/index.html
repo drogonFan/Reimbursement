@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Required meta tags -->
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title>Stellar Admin</title>
+<!-- plugins:css -->
+<link rel="stylesheet" href="vendors/simple-line-icons/css/simple-line-icons.css">
+<link rel="stylesheet" href="vendors/flag-icon-css/css/flag-icon.min.css">
+<link rel="stylesheet" href="vendors/css/vendor.bundle.base.css">
+<!-- endinject -->
+<!-- Plugin css for this page -->
+<link rel="stylesheet" href="./vendors/daterangepicker/daterangepicker.css">
+<link rel="stylesheet" href="./vendors/chartist/chartist.min.css">
+<!-- End plugin css for this page -->
+<!-- inject:css -->
+<!-- endinject -->
+<!-- Layout styles -->
+<link rel="stylesheet" href="./css/style.css">
+<!-- End layout styles -->
+<link rel="shortcut icon" href="./images/favicon.png" />
+</head>
+<body>
+
+<div class="container-scroller">
+  <!-- partial:partials/_navbar.html -->
+  <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+	<div class="navbar-brand-wrapper d-flex align-items-center">
+	  
+		<img src="images/logo.svg" alt="logo" class="logo-dark" />
+	  
+	  
+	</div>
+	<div class="navbar-menu-wrapper d-flex align-items-center flex-grow-1">
+			<h5 class="mb-0 font-weight-medium d-none d-lg-flex">oscar财务报销系统系统</h5>
+			<ul class="navbar-nav navbar-nav-right ml-auto">
+			  </li>
+			  <li class="nav-item dropdown d-none d-xl-inline-flex user-dropdown">
+				  <p class="font-weight-normal" id="username1"> 姓名 </p>
+			  </li>
+			</ul>
+		  </div>
+  </nav>
+  <!-- partial -->
+  <div class="container-fluid page-body-wrapper">
+	<!-- partial:partials/_sidebar.html -->
+	<nav class="sidebar sidebar-offcanvas" id="sidebar">
+	  <ul class="nav">
+		<li class="nav-item nav-profile">
+			<div class="text-wrapper">
+			  
+			</div>
+		  
+		</li>
+		<li class="nav-item nav-category"><span class="nav-link">个人报销</span></li>
+		<li class="nav-item">
+		  <a class="nav-link" data-toggle="collapse" id="all" aria-expanded="false" aria-controls="ui-basic">
+			<span class="menu-title">全部报销</span>
+		  </a>
+		</li>
+		<li class="nav-item">
+			<a class="nav-link" id = "add">
+				<span class="menu-title">申请报销</span>
+			</a>
+			
+		  </li>
+		<!--<li class="nav-item">
+		  <a class="nav-link" href="pages/tables/basic-table.html">
+			<span class="menu-title">Tables</span>
+			<i class="icon-grid menu-icon"></i>
+		  </a>
+		</li>-->
+	  </ul>
+	</nav>
+	<!-- partial -->
+	<div class="main-panel">
+	  <div class="content-wrapper">
+		<div class="row">
+		  <div class="col-md-12 grid-margin stretch-card">
+			<div class="card">
+			  <div class="card-body">
+				<div class="d-sm-flex align-items-center mb-4">
+				  <h4 class="card-title mb-sm-0">申请情况</h4>
+				   &nbsp;<button type="button" class="btn btn-primary btn-success btn-sm" id="over">已报销</button>
+				   &nbsp;<button type="button" class="btn btn-primary btn-success btn-sm" id="loading">待审核</button>
+				   &nbsp;<button type="button" class="btn btn-primary btn-success btn-sm" id="bxz">报销中</button>
+				   &nbsp;<button type="button" class="btn btn-primary btn-success btn-sm" id="failed">被退回</button>
+				   &nbsp;<button type="button" class="btn btn-primary btn-success btn-sm" id="showall">显示全部</button>
+				</div>
+				<div class="table-responsive border rounded p-1">
+				  <table class="table" id="table">
+					<thead>
+					  <tr>
+						<th class="font-weight-bold">发票号</th>
+						<th class="font-weight-bold">类别</th>
+						<th class="font-weight-bold">金额</th>
+						<th class="font-weight-bold">描述</th>
+						<th class="font-weight-bold">状态</th>
+						
+						<th class="font-weight-bold">相关操作</th>
+						<th class="font-weight-bold">相关操作</th>
+					  </tr>
+					</thead>
+					<tbody>
+
+					</tbody>
+				  </table>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	  </div>
+	  <!-- content-wrapper ends -->
+	  <!-- partial:partials/_footer.html -->
+	  <footer class="footer">
+		<div class="d-sm-flex justify-content-center justify-content-sm-between">
+		  <span class="text-muted text-center text-sm-left d-block d-sm-inline-block"></span>
+		</div>
+	  </footer>
+	  <!-- partial -->
+	</div>
+	<!-- main-panel ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+<!-- plugins:js -->
+<script src="js/jquery-3.4.1.js"></script>
+<script> 
+		/*
+		$("#userout").click(function(){
+			$.ajax({
+					type:"POST",
+					dataType:"json",
+					url:"http://47.95.147.13:9999/userout",
+					data:{"userout":"I want out"},
+					headers:{
+                      'Content-Type':'application/json',
+					  //'access-token':currentCookie,
+            		},
+					success:function(result){
+						if(result.code == 100){
+							window.location.href = "pages/samples/login.html";
+						}
+						else{
+							alert("登出失败");
+						}
+					},
+					error:function(){
+							alert("向后端请求失败");
+					}
+			})
+		})*/
+		$("#findit").click(function(){ 
+			var id = $("#findid").val();
+    		$("table").find("tr").each(function(){
+			$(this).find("#IDcard").each(function(){
+			if(id == $(this).text()){
+				$(this).parent().show();
+			}else{
+				$(this).parent().hide();
+			}
+			});
+			});
+		}); 
+		$("#over").click(function(){ 
+    		$("table").find("tr").each(function(){
+			$(this).find("#status").each(function(){
+			if("3" == $(this).text()){
+				$(this).parent().show();
+			}else{
+				$(this).parent().hide();
+			}
+			});
+			});
+		}); 
+		$("#loading").click(function(){ 
+    		$("table").find("tr").each(function(){
+			$(this).find("#status").each(function(){
+			if("0" == $(this).text()){
+				$(this).parent().show();
+			}else{
+				$(this).parent().hide();
+			}
+			});
+			});
+		}); 
+		$("#failed").click(function(){ 
+    		$("table").find("tr").each(function(){
+			$(this).find("#status").each(function(){
+			if("2" == $(this).text()){
+				$(this).parent().show();
+			}else{
+				$(this).parent().hide();
+			}
+			});
+			});
+		}); 
+		$("#bxz").click(function(){ 
+    		$("table").find("tr").each(function(){
+			$(this).find("#status").each(function(){
+			if("1" == $(this).text()){
+				$(this).parent().show();
+			}else{
+				$(this).parent().hide();
+			}
+			});
+			});
+		}); 
+		$("#showall").click(function(){ 
+			
+    		$("table").find("tr").each(function(){
+			$(this).find("#IDcard").each(function(){
+			
+				$(this).parent().show();
+			
+			});
+			});
+		}); 
+		$("#add").click(function(){
+			var url = location.href;
+			var num = url.indexOf("?");
+			var str = url.substr(num+1);
+			var arr = str.split("+");
+			console.log(arr)
+			var ssid = arr[0];
+			var token = arr[1];
+			window.location.href = "pages/change/addition.html?"+ssid+"+"+token
+		})
+		$("#all").click(function(){
+			var url = location.href;
+			var num = url.indexOf("?");
+			var str = url.substr(num+1);
+			var arr = str.split("+");
+			console.log(arr)
+			var ssid = arr[0];
+			var token = arr[1];
+			window.location.href = "index.html?"+ssid+"+"+token
+		})
+		$(function() {
+			$(document).on("click", "#del_btn", function() {
+				//$(this).parents("tr").remove()
+				var url = location.href;
+				var num = url.indexOf("?");
+				var str = url.substr(num+1);
+				var arr = str.split("+");
+				console.log(arr)
+				var ssid = arr[0];
+				var token = arr[1];
+				console.log($(this).text());
+				var  numbering = $(this).parent().parent().find("#IDcard").text();
+				console.log(numbering);
+				var tr = $(this).parent().parent();
+				$.ajax({
+					type:"POST",
+					dataType:"json",
+					url:"http://www.oscar-lab.cn:9999/del_invoicet/",
+					data:{ssid:ssid,
+						token:token,
+						inum:numbering},
+					success:function(data){
+						console.log(data)
+						if (typeof data === 'string') {
+							var data = JSON.parse(data);
+						}
+						if(data.code == 100){
+							tr.remove();
+						}
+						else{
+							alert("删除失败");
+						}
+					},
+					error:function(){
+							alert("向后端请求失败");
+					}
+				});
+			})
+		})
+		$(function() {
+			$(document).on("click", "#up_btn", function() {
+				//$(this).parents("tr").remove()
+				console.log($(this).text());
+				var  numbering = $(this).parent().parent().find("#IDcard").text();
+				console.log(numbering);
+				var tr = $(this).parent().parent();
+				var url = location.href;
+				var num = url.indexOf("?");
+				var str = url.substr(num+1);
+				var arr = str.split("+");
+				console.log(arr)
+				var ssid = arr[0];
+				var token = arr[1];
+				window.location.href = "pages/change/update.html?"+ssid+"+"+token+"+"+numbering
+			})
+		})
+		$(document).ready(function(){
+			var url = location.href;
+			var num = url.indexOf("?");
+			var str = url.substr(num+1);
+			var arr = str.split("+");
+			console.log(arr)
+			var ssid = arr[0];
+			var token = arr[1];
+			var type = [0];
+				$.ajax({
+				type:"POST",
+				url:"http://www.oscar-lab.cn:9999/look_invoice/",
+				data:{
+					ssid:ssid,
+					token:token,
+					passed:false,
+					looktype:0
+				},
+				dataType:"json",
+				success:function(res){
+					console.log(res)
+					if (typeof res === 'string') {
+							var res = JSON.parse(res);
+						}
+					var str = "<tr>";
+					$.each(res.datas, function(idx,val) {
+						//var str = "<tr>";
+						str +="<td id='IDcard'>"+val.inum+"</td><td>"+val.category+"</td><td>"+val.money+"</td><td>"+val.description+"</td><td id='status'>"+val.status+'</td><td>'
+								+'<button type="button" class="btn btn-primary btn-success btn-sm" id="up_btn" >修改</button></td>'
+								+"<td><button type='button' class='btn btn-primary btn-success btn-sm' id='del_btn'>删除</button></td>";
+								str += "<tr>";
+					});
+					//str += "<tr>";
+					$("tbody").append(str);
+
+				}
+			});
+	})
+
+</script>
+<!-- End custom js for this page -->
+</body>
+</html>

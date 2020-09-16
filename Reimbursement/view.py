@@ -19,6 +19,10 @@ from Reimbursement.mredis import *
 from Reimbursement.wangyi_email import Email163
 
 @csrf_exempt
+def one(request):
+    return render(request, './pages/samples/login.html')
+
+@csrf_exempt
 def signup(request):
     rs = {'code': 100, 'msg':''}
     if request.method == "POST":
@@ -182,7 +186,7 @@ def look_invoice(request):
                 invoice_nums = []
                 for t in temp:
                     invoice_nums.append(t['invoiceid'])
-                infos = Invoice.objects.filter(iid__in=invoice_nums).values('userid_name').annotate(dcount=Count("inum"), totmoney=Sum("money"))
+                infos = Invoice.objects.filter(iid__in=invoice_nums).values('userid').annotate(dcount=Count("inum"), totmoney=Sum("money"))
                 #infos = Binding.objects.filter(morderid = Morder.objects.get(mid=morder_id)).invoiceid_set.all().values('userid').annotate(dcount=Count("inum"), totmoney=Sum("money"))
             elif look_type == 8 and morder_id != 0:
                 # 查询一次报销表单里的所有发票，按种类计算和
@@ -432,7 +436,7 @@ def over_basket(request):
         if verify_token(ssid, token):
             morder_id = get_basket_num()
             if morder_id != 0:
-                dtime = timezone.now
+                dtime = timezone.now()
                 Morder.objects.filter(mid=morder_id).update(re_datetime=dtime)
                 temp = Binding.objects.filter(morderid = Morder.objects.get(mid=morder_id)).values('invoiceid')
                 invoice_nums = []
@@ -440,6 +444,7 @@ def over_basket(request):
                     invoice_nums.append(t['invoiceid'])
                 Invoice.objects.filter(iid__in=invoice_nums).update(status=3)
                 Invoice.objects.filter(iid__in=invoice_nums).update(re_datetime=dtime)
+                rest_basket_num()
                 rs = {'code':100, 'msg':'Successfully'}
             else:
                 rs = {'code':103, 'msg':'There are currently no reimbursement items'}
