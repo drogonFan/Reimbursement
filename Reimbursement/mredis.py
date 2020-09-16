@@ -57,7 +57,7 @@ def can_new_basket():
         return False
 
 def get_basket_num():
-    con.get(DEFAULT_BASKET)
+    return int(con.get(DEFAULT_BASKET))
 
 def record_basket_num(num):
     con.set(DEFAULT_BASKET, num)
