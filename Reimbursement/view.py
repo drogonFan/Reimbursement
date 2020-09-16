@@ -438,6 +438,7 @@ def over_basket(request):
                 invoice_nums = []
                 for t in temp:
                     invoice_nums.append(t['invoiceid'])
+                Invoice.objects.filter(iid__in=invoice_nums).update(status=3)
                 Invoice.objects.filter(iid__in=invoice_nums).update(re_datetime=dtime)
                 rs = {'code':100, 'msg':'Successfully'}
             else:
