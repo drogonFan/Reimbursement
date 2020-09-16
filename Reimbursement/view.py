@@ -152,7 +152,7 @@ def look_invoice(request):
                 infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).order_by('status', 'inum')
             elif look_type == 1:
                 # 查询我的发票, 按发票种类排序
-                infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status__in=[0, 1, 2]).order_by('status', 'categoryid')
+                infos = Invoice.objects.filter(status=0).order_by('userid', 'categoryid')
             elif look_type == 2:
                 # 查询我已报销的发票, 按发票号排序
                 infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status=3).order_by('status', 'inum')
@@ -164,16 +164,16 @@ def look_invoice(request):
                 infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status=0).order_by('inum')
             elif look_type == 5 and morder_id != 0:
                 # 查询一次报销表单里的所有发票，按发票号排序
-                infos = Binding.objects.filter(morderid = Morder.objects.get(morderid=morder_id)).invoiceid_set.all().order_by('inum')
+                infos = Binding.objects.filter(morderid = Morder.objects.get(mid=morder_id)).invoiceid_set.all().order_by('inum')
             elif look_type == 6 and morder_id != 0:
                 # 查询一次报销表单里的所有发票，按种类排序
-                infos = Binding.objects.filter(morderid = Morder.objects.get(morderid=morder_id)).invoiceid_set.all().order_by('categoryid')
+                infos = Binding.objects.filter(morderid = Morder.objects.get(mid=morder_id)).invoiceid_set.all().order_by('categoryid')
             elif look_type == 7 and morder_id != 0:
                 # 查询一次报销表单里的所有发票，按人名计算和
-                infos = Binding.objects.filter(morderid = Morder.objects.get(morderid=morder_id)).invoiceid_set.all().values('userid').annotate(dcount=Count("inum"), totmoney=Sum("money"))
+                infos = Binding.objects.filter(morderid = Morder.objects.get(mid=morder_id)).invoiceid_set.all().values('userid').annotate(dcount=Count("inum"), totmoney=Sum("money"))
             elif look_type == 8 and morder_id != 0:
                 # 查询一次报销表单里的所有发票，按种类计算和
-                infos = Binding.objects.filter(morderid = Morder.objects.get(morderid=morder_id)).invoiceid_set.all().values('categoryid').annotate(dcount=Count("inum"), totmoney=Sum("money"))
+                infos = Binding.objects.filter(morderid = Morder.objects.get(mid=morder_id)).invoiceid_set.all().values('categoryid').annotate(dcount=Count("inum"), totmoney=Sum("money"))
             else:
                 pass
             data = []
