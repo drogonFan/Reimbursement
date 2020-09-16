@@ -164,33 +164,51 @@ def look_invoice(request):
                 infos = Invoice.objects.filter(userid = Student.objects.get(ssid=ssid)).filter(status=0).order_by('inum')
             elif look_type == 5 and morder_id != 0:
                 # 查询一次报销表单里的所有发票，按发票号排序
-                infos = Binding.objects.filter(morderid = Morder.objects.get(mid=morder_id)).invoiceid_set.all().order_by('inum')
+                temp = Binding.objects.filter(morderid = Morder.objects.get(mid=morder_id)).values('invoiceid')
+                invoice_nums = []
+                for t in temp:
+                    invoice_nums.append(t['invoiceid'])
+                infos = Invoice.objects.filter(iid__in=invoice_nums).order_by('inum')
             elif look_type == 6 and morder_id != 0:
                 # 查询一次报销表单里的所有发票，按种类排序
-                infos = Binding.objects.filter(morderid = Morder.objects.get(mid=morder_id)).invoiceid_set.all().order_by('categoryid')
+                temp = Binding.objects.filter(morderid = Morder.objects.get(mid=morder_id)).values('invoiceid')
+                invoice_nums = []
+                for t in temp:
+                    invoice_nums.append(t['invoiceid'])
+                infos = Invoice.objects.filter(iid__in=invoice_nums).order_by('categoryid')
             elif look_type == 7 and morder_id != 0:
                 # 查询一次报销表单里的所有发票，按人名计算和
-                infos = Binding.objects.filter(morderid = Morder.objects.get(mid=morder_id)).invoiceid_set.all().values('userid').annotate(dcount=Count("inum"), totmoney=Sum("money"))
+                temp = Binding.objects.filter(morderid = Morder.objects.get(mid=morder_id)).values('invoiceid')
+                invoice_nums = []
+                for t in temp:
+                    invoice_nums.append(t['invoiceid'])
+                infos = Invoice.objects.filter(iid__in=invoice_nums).values('userid_name').annotate(dcount=Count("inum"), totmoney=Sum("money"))
+                #infos = Binding.objects.filter(morderid = Morder.objects.get(mid=morder_id)).invoiceid_set.all().values('userid').annotate(dcount=Count("inum"), totmoney=Sum("money"))
             elif look_type == 8 and morder_id != 0:
                 # 查询一次报销表单里的所有发票，按种类计算和
-                infos = Binding.objects.filter(morderid = Morder.objects.get(mid=morder_id)).invoiceid_set.all().values('categoryid').annotate(dcount=Count("inum"), totmoney=Sum("money"))
+                temp = Binding.objects.filter(morderid = Morder.objects.get(mid=morder_id)).values('invoiceid')
+                invoice_nums = []
+                for t in temp:
+                    invoice_nums.append(t['invoiceid'])
+                infos = Invoice.objects.filter(iid__in=invoice_nums).values('categoryid').annotate(dcount=Count("inum"), totmoney=Sum("money"))
+                # infos = Binding.objects.filter(morderid = Morder.objects.get(mid=morder_id)).invoiceid_set.all().values('categoryid').annotate(dcount=Count("inum"), totmoney=Sum("money"))
             else:
                 pass
             data = []
             if look_type == 7:
                 for info in infos:
                     record = {
-                        'username' : info.userid.name,
-                        'dcount' : info.dcount,
-                        'sum' : round(float(info.totmoney), 2)
+                        'username' : Student.objects.get(sid=info['userid']).name,
+                        'dcount' : info['dcount'],
+                        'sum' : round(float(info['totmoney']), 2)
                     }
                     data.append(record)
             elif look_type == 8:
                 for info in infos:
                     record = {
-                        'category' : info.categoryid.name,
-                        'dcount' : info.dcount,
-                        'sum' : round(float(info.totmoney), 2)
+                        'category' : Category.objects.get(cid=info['categoryid']).name,
+                        'dcount' : info['dcount'],
+                        'sum' : round(float(info['totmoney']), 2)
                     }
                     data.append(record)
             else:
