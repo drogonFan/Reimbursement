@@ -434,7 +434,11 @@ def over_basket(request):
             if morder_id != 0:
                 dtime = timezone.now
                 Morder.objects.filter(mid=morder_id).update(re_datetime=dtime)
-                Binding.objects.filter(morderid = Morder.objects.get(morderid=morder_id)).invoiceid_set.all().update(re_datetime=dtime)
+                temp = Binding.objects.filter(morderid = Morder.objects.get(mid=morder_id)).values('invoiceid')
+                invoice_nums = []
+                for t in temp:
+                    invoice_nums.append(t['invoiceid'])
+                Invoice.objects.filter(iid__in=invoice_nums).update(re_datetime=dtime)
                 rs = {'code':100, 'msg':'Successfully'}
             else:
                 rs = {'code':103, 'msg':'There are currently no reimbursement items'}
