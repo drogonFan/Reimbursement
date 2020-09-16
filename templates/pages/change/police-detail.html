@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Stellar Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="../../vendors/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="../../vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="../../css/style.css" <!-- End layout styles -->
+    <link rel="shortcut icon" href="../../images/favicon.png" />
+  </head>
+  <body>
+    <div class="container-scroller">
+  <!-- partial:partials/_navbar.html -->
+  <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+		<div class="navbar-brand-wrapper d-flex align-items-center">
+		  <a class="navbar-brand brand-logo" href="../../index.html">
+			<img src="../../images/logo.svg" alt="logo" class="logo-dark" />
+		  </a>
+		  <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../images/logo-mini.svg" alt="logo" /></a>
+		</div>
+		<div class="navbar-menu-wrapper d-flex align-items-center flex-grow-1">
+		  <h5 class="mb-0 font-weight-medium d-none d-lg-flex">案件管理系统</h5>
+		  <ul class="navbar-nav navbar-nav-right ml-auto">
+			</li>
+			<li class="nav-item dropdown d-none d-xl-inline-flex user-dropdown">
+				<span class="font-weight-normal" id="sswusername"> 系统管理员 </span>
+				<button type="button" class="btn btn-primary btn-success btn-sm" id="userout">登出</button>
+			</li>
+		  </ul>
+		</div>
+	  </nav>
+  <!-- partial -->
+  <div class="container-fluid page-body-wrapper">
+	<!-- partial:partials/_sidebar.html -->
+	<nav class="sidebar sidebar-offcanvas" id="sidebar">
+			<ul class="nav">
+			  <li class="nav-item nav-profile">
+				<a href="#" class="nav-link">
+				  <div class="text-wrapper">
+					<p class="profile-name">管理员</p>
+					<p class="designation">Administrator</p>
+				  </div>
+				</a>
+			  </li>
+			  <li class="nav-item nav-category"><span class="nav-link">监禁者管理</span></li>
+			  <li class="nav-item">
+				<a class="nav-link" data-toggle="collapse" href="../../index.html" aria-expanded="false" aria-controls="ui-basic">
+				  <span class="menu-title">监禁者个人资料</span>
+				  <i class="icon-layers menu-icon"></i>
+				</a>
+			  </li>
+			  </li>
+			  
+			  <li class="nav-item nav-category"><span class="nav-link">警员管理</span></li>
+			  <li class="nav-item">
+				<a class="nav-link" data-toggle="collapse" href="../../pages/icons/police-information.html" aria-expanded="false" aria-controls="ui-basic">
+				  <span class="menu-title">警员个人资料</span>
+				  <i class="icon-layers menu-icon"></i>
+				</a>
+			  </li>
+			  </li>
+			  
+			  <!--<li class="nav-item">
+				<a class="nav-link" href="pages/tables/basic-table.html">
+				  <span class="menu-title">Tables</span>
+				  <i class="icon-grid menu-icon"></i>
+				</a>
+			  </li>-->
+			</ul>
+		  </nav>
+	<!-- partial -->
+              
+                
+				<div class="main-panel">
+						<div class="content-wrapper">
+						  <div class="row purchace-popup">
+							<div class="col-12 stretch-card grid-margin">
+							  <div class="card card-secondary">
+								<span class="card-body d-lg-flex align-items-center">
+								  <p class="mb-lg-0">警员的详细信息</p>
+								</span>
+							  </div>
+							</div>
+						  </div>
+						  <div class="row">
+								
+								  
+								<div class="col-md-6 grid-margin stretch-card">
+								  <div class="card">
+									<div class="card-body">
+									  <h4 class="card-title">警员个人信息</h4>
+									  <p class="card-description"> 个人资料 </p>
+									  <div class="row">
+										<div class="col-md-6">
+										  <address>
+											<p id="PoliceIDcard">zhangsan</p>
+											<p id="Policename"><span class="font-weight-bold">姓&nbsp;&nbsp;&nbsp;名：</span>张三</p>
+											<p id="Policeage"><span class="font-weight-bold">性&nbsp;&nbsp;&nbsp;别：</span>男</p>
+											<p id="Policestatus"><span class="font-weight-bold">生&nbsp;&nbsp;&nbsp;日：</span>1970年5月生人</p>
+											<p id="PolicelPerferture"><span class="font-weight-bold">生&nbsp;&nbsp;&nbsp;日：</span>1970年5月生人</p>
+										  </address>
+										</div>
+									  </div>
+									</div>
+								  </div>
+								</div>
+								<div class="col-md-6 grid-margin stretch-card">
+									  <div class="card">
+										<div class="card-body">
+										  <h4 class="card-title">案件描述</h4>
+										  <p class="card-description">  声明：<code></code></p>
+										  <p id="caseinfo"> 017年10月以来，以曾泉堡为首要分子，以陆雁、陈聪、梁玉钦为骨干成员的恶势力犯罪集团，先后纠集陈圣、陈之海、何传亮等32人，在北流市新丰镇、平政镇、北流市城区等地，为非作歹，欺压百姓，实施了故意毁坏财物、非法拘禁、寻衅滋事、开设赌场、聚众斗殴、非法持有枪支、盗窃等一系列违法犯罪行为 </p>
+										</div>
+									  </div>
+									</div>
+								
+							  </div>
+	  <!-- content-wrapper ends -->
+	  <!-- partial:partials/_footer.html -->
+	  <footer class="footer">
+		<div class="d-sm-flex justify-content-center justify-content-sm-between">
+		  <span class="text-muted text-center text-sm-left d-block d-sm-inline-block"></span>
+		</div>
+	  </footer>
+	  <!-- partial -->
+	</div>
+	<!-- main-panel ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+<!-- plugins:js -->
+<script src="../../js/jquery.min.js"></script>
+<script>
+	$("#userout").click(function(){
+			$.ajax({
+					type:"POST",
+					dataType:"json",
+					url:"http://47.95.147.13:9999/userout",
+					data:{"userout":"I want out"},
+					headers:{
+                      'Content-Type':'application/json',
+					  'access-token':currentCookie,
+            		},
+					success:function(result){
+						if(result.code == 100){
+							window.location.href = "pages/samples/login.html";
+						}
+						else{
+							alert("登出失败");
+						}
+					},
+					error:function(){
+							alert("向后端请求失败");
+					}
+			})
+		})
+	$(document).ready(function(){
+       //获取url中的参数
+       function getUrlParam(name) {
+           var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+           var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+           if (r != null) return unescape(r[2]); return null; //返回参数值
+       }
+
+       //接收URL中的参数booksId
+       var id = getUrlParam('IDcard');
+       console.log('id:'+id);
+
+       $.ajax({
+        type:'get',
+        url:'http://47.95.147.13:9999/getoneCriminal',
+		data:{"IDcsrd":id},   
+		dataType:'json',
+		headers:{
+                      'Content-Type':'application/json',
+					  'access-token':currentCookie,
+            		},
+        success:function(res){
+			$("#PoliceIDcard").text("编&nbsp;&nbsp;&nbsp;号："+res.PoliceIDcard);
+			$("#Policename").text("姓&nbsp;&nbsp;&nbsp;名："+res.Policename);
+			$("#Policeage").text("年&nbsp;&nbsp;&nbsp;龄："+res.Policeage);
+			$("#Policestatus").text("状&nbsp;&nbsp;&nbsp;态："+res.Policestatus);
+			$("#PolicelPerferture").text("表&nbsp;&nbsp;&nbsp;现："+res.PolicelPerferture);
+			$("#caseinfo").text(res.info);
+        }
+       })
+})
+</script>
+<!-- End custom js for this page -->
+</body>
+</html>

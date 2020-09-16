@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Stellar Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="../../vendors/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="../../vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <link rel="stylesheet" href="../../vendors/daterangepicker/daterangepicker.css">
+<link rel="stylesheet" href="../../vendors/chartist/chartist.min.css">
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="../../css/style.css" <!-- End layout styles -->
+    <link rel="shortcut icon" href="../../images/favicon.png" />
+  </head>
+  <body>
+    <div class="container-scroller">
+  <!-- partial:partials/_navbar.html -->
+  <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+	<div class="navbar-brand-wrapper d-flex align-items-center">
+	  <a class="navbar-brand brand-logo" href="../../index.html">
+		<img src="../../images/logo.svg" alt="logo" class="logo-dark" />
+	  </a>
+	  <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../images/logo-mini.svg" alt="logo" /></a>
+	</div>
+	<div class="navbar-menu-wrapper d-flex align-items-center flex-grow-1">
+	  <h5 class="mb-0 font-weight-medium d-none d-lg-flex">。。。。系统</h5>
+	  <ul class="navbar-nav navbar-nav-right ml-auto">
+		<form class="search-form d-none d-md-block" action="#">
+		  <i class="icon-magnifier"></i>
+		  <input type="search" class="form-control" placeholder="Search Here" title="Search here">
+		</form>
+		
+		
+		<li class="nav-item dropdown d-none d-xl-inline-flex user-dropdown">
+		  <a class="nav-link dropdown-toggle" id="UserDropdown" href="#" data-toggle="dropdown" aria-expanded="false">
+			<img class="img-xs rounded-circle ml-2" src="../../images/faces/face8.jpg" alt="Profile image"> <span class="font-weight-normal"> 系统管理员 </span></a>
+		  <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
+			<div class="dropdown-header text-center">
+			  <img class="img-md rounded-circle" src="../../images/faces/face8.jpg" alt="Profile image">
+			  <p class="mb-1 mt-3">系统管理员</p>
+			  <p class="font-weight-light text-muted mb-0">Administer@gmail.com</p>
+			</div>
+			<a class="dropdown-item"><i class="dropdown-item-icon icon-user text-primary"></i> 我的资料 <span class="badge badge-pill badge-danger">1</span></a>
+			<a class="dropdown-item"><i class="dropdown-item-icon icon-speech text-primary"></i> 留言</a>
+			<a class="dropdown-item"><i class="dropdown-item-icon icon-question text-primary"></i> 常见问题</a>
+			<a class="dropdown-item"><i class="dropdown-item-icon icon-power text-primary"></i>退出</a>
+		  </div>
+		</li>
+	  </ul>
+	  <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button" data-toggle="offcanvas">
+		<span class="icon-menu"></span>
+	  </button>
+	</div>
+  </nav>
+  <!-- partial -->
+  <div class="container-fluid page-body-wrapper">
+	<!-- partial:partials/_sidebar.html -->
+	<nav class="sidebar sidebar-offcanvas" id="sidebar">
+	  <ul class="nav">
+		<li class="nav-item nav-profile">
+		  <a href="#" class="nav-link">
+			<div class="profile-image">
+			  <img class="img-xs rounded-circle" src="../../images/faces/face8.jpg" alt="profile image">
+			  <div class="dot-indicator bg-success"></div>
+			</div>
+			<div class="text-wrapper">
+			  <p class="profile-name">管理员</p>
+			  <p class="designation">Administrator</p>
+			</div>
+			<div class="icon-container">
+			  <i class="icon-bubbles"></i>
+			  <div class="dot-indicator bg-danger"></div>
+			</div>
+		  </a>
+		</li>
+		<li class="nav-item nav-category"><span class="nav-link">监禁者管理</span></li>
+		<li class="nav-item">
+		  <a class="nav-link" data-toggle="collapse" href="../../index.html" aria-expanded="false" aria-controls="ui-basic">
+			<span class="menu-title">监禁者个人资料</span>
+			<i class="icon-layers menu-icon"></i>
+		  </a>
+		</li>
+		</li>
+		<li class="nav-item">
+		  <a class="nav-link" href="../../pages/forms/basic_elements.html">
+			<span class="menu-title">案发详情</span>
+			<i class="icon-book-open menu-icon"></i>
+		  </a>
+		</li>
+		<li class="nav-item nav-category"><span class="nav-link">警员管理</span></li>
+		<li class="nav-item">
+		  <a class="nav-link" data-toggle="collapse" href="../../pages/icons/police-information.html" aria-expanded="false" aria-controls="ui-basic">
+			<span class="menu-title">警员个人资料</span>
+			<i class="icon-layers menu-icon"></i>
+		  </a>
+		</li>
+		</li>
+		<li class="nav-item">
+		  <a class="nav-link" href="../../pages/charts/deal_case.html">
+			<span class="menu-title">经手案件</span>
+			<i class="icon-book-open menu-icon"></i>
+		  </a>
+		</li>
+		<!--<li class="nav-item">
+		  <a class="nav-link" href="pages/tables/basic-table.html">
+			<span class="menu-title">Tables</span>
+			<i class="icon-grid menu-icon"></i>
+		  </a>
+		</li>-->
+		<li class="nav-item nav-category"><span class="nav-link">关于系统</span></li>
+		<li class="nav-item">
+		  <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false" aria-controls="auth">
+			<span class="menu-title">设置</span>
+			<i class="icon-doc menu-icon"></i>
+		  </a>
+		  <div class="collapse" id="auth">
+			<ul class="nav flex-column sub-menu">
+			  <li class="nav-item"> <a class="nav-link" href="../../pages/samples/login.html"> 登录 </a></li>
+			  <li class="nav-item"> <a class="nav-link" href="../../pages/samples/register.html"> 注册 </a></li>
+			  <!--<li class="nav-item"> <a class="nav-link" href="pages/samples/error-404.html"> 404 </a></li>
+			  <li class="nav-item"> <a class="nav-link" href="pages/samples/error-500.html"> 500 </a></li>-->
+			  <li class="nav-item"> <a class="nav-link" href="../../pages/samples/blank-page.html"> 关于 </a></li>
+			</ul>
+		  </div>
+		</li>
+	  </ul>
+	</nav>
+	<!-- partial -->
+	<div class="main-panel">
+	  <div class="content-wrapper">
+		<div class="row purchace-popup">
+		  <div class="col-12 stretch-card grid-margin">
+			<div class="card card-secondary">
+			  <span class="card-body d-lg-flex align-items-center">
+				<p class="mb-lg-0">警员经手的案件。。。。。（相关介绍）</p>
+			  </span>
+			</div>
+		  </div>
+		</div>
+		
+		<div class="col-lg-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">经手案件信息</h4>
+                    <p class="card-description"> 如有任何问题，<code>请及时联系相关部门</code>
+                    </p>
+                    <table class="table table-bordered">
+                      <thead>
+                        <tr>
+                          <th> 警员 </th>
+                          <th> 监禁人编号 </th>
+                          <th> 刑期 </th>
+                          <th> 案件类型 </th>
+                          <th> 案发时间 </th>
+                          <th> 案发地点 </th>
+                          <th> 案发经过 </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td> 111 </td>
+                          <td> 001 </td>
+                          <td>
+                            <div class="progress">
+                              <div class="progress-bar bg-success" role="progressbar" style="width: 25%" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          </td>
+                          <td> 危害公共安全 </td>
+                          <td> 2015-05-02 </td>
+                          <td> 北京 </td>
+                          <td> 亚洲第一起劫机案，黄关耀团伙劫机造成26人死亡</td>
+                        </tr>
+                        <tr>
+                          <td> 112 </td>
+                          <td> 002 </td>
+                          <td>
+                            <div class="progress">
+                              <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          </td>
+                          <td> 贪污贿赂 </td>
+                          <td> 2018-09-14  </td>
+                          <td> 北京 </td>
+                          <td> 亚洲第一起劫机案，黄关耀团伙劫机造成26人死亡</td>
+                        </tr>
+                        <tr>
+                          <td> 113 </td>
+                          <td> 003 </td>
+                          <td>
+                            <div class="progress">
+                              <div class="progress-bar bg-warning" role="progressbar" style="width: 90%" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          </td>
+                          <td> 贪污贿赂 </td>
+                          <td> 2018-09-14  </td>
+                          <td> 北京 </td>
+                          <td> 亚洲第一起劫机案，黄关耀团伙劫机造成26人死亡</td>
+                        </tr>
+                        <tr>
+                          <td> 114 </td>
+                          <td> 004 </td>
+                          <td>
+                            <div class="progress">
+                              <div class="progress-bar bg-primary" role="progressbar" style="width: 50%" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          </td>
+                          <td> 走私 </td>
+                          <td> 2019-07-17 </td>
+                          <td> 北京 </td>
+                          <td> 亚洲第一起劫机案，黄关耀团伙劫机造成26人死亡</td>
+                        </tr>
+                        <tr>
+                          <td> 115 </td>
+                          <td> 001 </td>
+                          <td>
+                            <div class="progress">
+                              <div class="progress-bar bg-danger" role="progressbar" style="width: 35%" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          </td>
+                          <td> 妨害社会管理秩序 </td>
+                          <td> 2016-03-25  </td>
+                          <td> 北京 </td>
+                          <td> 亚洲第一起劫机案，黄关耀团伙劫机造成26人死亡</td>
+                        </tr>
+                        <tr>
+                          <td> 116 </td>
+                          <td> 006 </td>
+                          <td>
+                            <div class="progress">
+                              <div class="progress-bar bg-info" role="progressbar" style="width: 65%" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          </td>
+                          <td> 金融诈骗 </td>
+                          <td> 2019-01-13  </td>
+                          <td> 北京 </td>
+                          <td> 亚洲第一起劫机案，黄关耀团伙劫机造成26人死亡</td>
+                        </tr>
+                        <tr>
+                          <td> 117 </td>
+                          <td> 008 </td>
+                          <td>
+                            <div class="progress">
+                              <div class="progress-bar bg-warning" role="progressbar" style="width: 20%" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                            </div>
+                          </td>
+                          <td> 侵犯财产 </td>
+                          <td> 2019-05-13 </td>
+                          <td> 北京 </td>
+                          <td> 亚洲第一起劫机案，黄关耀团伙劫机造成26人死亡</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                  <div class="d-flex mt-4 flex-wrap">
+				  <p class="text-muted">  详情</p>
+				  <nav class="ml-auto">
+					<ul class="pagination separated pagination-info">
+					  <li class="page-item"><a href="#" class="page-link"><i class="icon-arrow-left"></i></a></li>
+					  <li class="page-item active"><a href="#" class="page-link">1</a></li>
+					  <li class="page-item"><a href="#" class="page-link">2</a></li>
+					  <li class="page-item"><a href="#" class="page-link">3</a></li>
+					  <li class="page-item"><a href="#" class="page-link">4</a></li>
+					  <li class="page-item"><a href="#" class="page-link"><i class="icon-arrow-right"></i></a></li>
+					</ul>
+				  </nav>
+				</div>
+                </div>
+              </div>
+	  <!-- content-wrapper ends -->
+	  <!-- partial:partials/_footer.html -->
+	  <footer class="footer">
+		<div class="d-sm-flex justify-content-center justify-content-sm-between">
+		  <span class="text-muted text-center text-sm-left d-block d-sm-inline-block"></span>
+		</div>
+	  </footer>
+	  <!-- partial -->
+	</div>
+	<!-- main-panel ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+<!-- plugins:js -->
+<script src="vendors/js/vendor.bundle.base.js"></script>
+<!-- endinject -->
+<!-- Plugin js for this page -->
+<script src="./vendors/chart.js/Chart.min.js"></script>
+<script src="./vendors/moment/moment.min.js"></script>
+<script src="./vendors/daterangepicker/daterangepicker.js"></script>
+<script src="./vendors/chartist/chartist.min.js"></script>
+<!-- End plugin js for this page -->
+<!-- inject:js -->
+<script src="js/off-canvas.js"></script>
+<script src="js/misc.js"></script>
+<!-- endinject -->
+<!-- Custom js for this page -->
+<script src="./js/dashboard.js"></script>
+<!-- End custom js for this page -->
+</body>
+</html>

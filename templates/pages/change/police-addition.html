@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Stellar Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="../../vendors/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="../../vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="../../css/style.css">
+    <link rel="shortcut icon" href="../../images/favicon.png" />
+  </head>
+  <body>
+    <div class="container-scroller">
+  <!-- partial:partials/_navbar.html -->
+  <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+		<div class="navbar-brand-wrapper d-flex align-items-center">
+		  <a class="navbar-brand brand-logo" href="../../index.html">
+			<img src="../../images/logo.svg" alt="logo" class="logo-dark" />
+		  </a>
+		  <a class="navbar-brand brand-logo-mini" href="../../index.html"><img src="../../images/logo-mini.svg" alt="logo" /></a>
+		</div>
+		<div class="navbar-menu-wrapper d-flex align-items-center flex-grow-1">
+		  <h5 class="mb-0 font-weight-medium d-none d-lg-flex">案件管理系统</h5>
+		  <ul class="navbar-nav navbar-nav-right ml-auto">
+			</li>
+			<li class="nav-item dropdown d-none d-xl-inline-flex user-dropdown">
+				<span class="font-weight-normal" id="sswusername"> 系统管理员 </span>
+				<button type="button" class="btn btn-primary btn-success btn-sm" id="userout">登出</button>
+			</li>
+		  </ul>
+		</div>
+	  </nav>
+  <!-- partial -->
+  <div class="container-fluid page-body-wrapper">
+	<!-- partial:partials/_sidebar.html -->
+	<nav class="sidebar sidebar-offcanvas" id="sidebar">
+			<ul class="nav">
+			  <li class="nav-item nav-profile">
+				<a href="#" class="nav-link">
+				  <div class="text-wrapper">
+					<p class="profile-name">管理员</p>
+					<p class="designation">Administrator</p>
+				  </div>
+				</a>
+			  </li>
+			  <li class="nav-item nav-category"><span class="nav-link">监禁者管理</span></li>
+			  <li class="nav-item">
+				<a class="nav-link" data-toggle="collapse" href="../../index.html" aria-expanded="false" aria-controls="ui-basic">
+				  <span class="menu-title">监禁者个人资料</span>
+				  <i class="icon-layers menu-icon"></i>
+				</a>
+			  </li>
+			  </li>
+			  
+			  <li class="nav-item nav-category"><span class="nav-link">警员管理</span></li>
+			  <li class="nav-item">
+				<a class="nav-link" data-toggle="collapse" href="../../pages/icons/police-information.html" aria-expanded="false" aria-controls="ui-basic">
+				  <span class="menu-title">警员个人资料</span>
+				  <i class="icon-layers menu-icon"></i>
+				</a>
+			  </li>
+			  </li>
+			  
+			  <!--<li class="nav-item">
+				<a class="nav-link" href="pages/tables/basic-table.html">
+				  <span class="menu-title">Tables</span>
+				  <i class="icon-grid menu-icon"></i>
+				</a>
+			  </li>-->
+			 
+			</ul>
+		  </nav>
+	<!-- partial -->
+	<div class="main-panel">
+	  <div class="content-wrapper">
+			<div class="row purchace-popup">
+					<div class="col-12 stretch-card grid-margin">
+					  <div class="card card-secondary">
+						<span class="card-body d-lg-flex align-items-center">
+						  <p class="mb-lg-0">新的警员录用</p>
+						  &nbsp;<a href="../../index.html" class="text-dark ml-auto mb-3 mb-sm-0">返回</a>
+						</span>
+					  </div>
+					</div>
+				  </div>
+		<div class="col-12 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">警员基本信息表</h4>
+                    <p class="card-description"> 添加信息 </p>
+                    <form class="forms-sample">
+                      <div class="form-group">
+                        <label for="exampleInputName1">编号</label>
+                        <input type="text" class="form-control" id="PoliceID">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputEmail3">姓名</label>
+                        <input type="text" class="form-control" id="Policename">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputPassword4">年龄</label>
+                        <input type="text" class="form-control" id="Policeage">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleInputCity1">状态</label>
+                        <input type="text" class="form-control" id="Policestatus">
+                      </div>
+                      <div class="form-group">
+                        <label for="exampleTextarea1">表现</label>
+						<input type="text" class="form-control" id="PolicePerferture">
+                      </div>
+                      <button type="button" class="btn btn-primary mr-2" onclick="Policedatasubmit()">添加</button>
+                      <button class="btn btn-light">取消</button>
+                    </form>
+                  </div>
+                </div>
+              </div>
+	  <!-- content-wrapper ends -->
+	  <!-- partial:partials/_footer.html -->
+	  <footer class="footer">
+		<div class="d-sm-flex justify-content-center justify-content-sm-between">
+		  <span class="text-muted text-center text-sm-left d-block d-sm-inline-block"></span>
+		</div>
+	  </footer>
+	  <!-- partial -->
+	</div>
+	<!-- main-panel ends -->
+  </div>
+  <!-- page-body-wrapper ends -->
+</div>
+<!-- container-scroller -->
+<!-- plugins:js -->
+<script src="../../js/jquery.min.js"></script>
+<script>
+	$("#userout").click(function(){
+			$.ajax({
+					type:"POST",
+					dataType:"json",
+					url:"http://47.95.147.13:9999/userout",
+					data:{"userout":"I want out"},
+					headers:{
+                      'Content-Type':'application/json',
+					  'access-token':currentCookie,
+            		},
+					success:function(result){
+						if(result.code == 100){
+							window.location.href = "pages/samples/login.html";
+						}
+						else{
+							alert("登出失败");
+						}
+					},
+					error:function(){
+							alert("向后端请求失败");
+					}
+			})
+		})
+	function Policedatasubmit(){
+			var PoliceID = $("#PoliceID").val();
+			var Policeage = $("#Policeage").val();
+			var Policename = $("#Policename").val();
+			var Policestatus = $("#Policestatus").val();
+			var PolicePerferture = $("#PolicePerferture").val();
+			if(!PoliceID){
+							alert("编号必填!");
+							$("#PoliceID").focus();//获取焦点
+							return ;
+						}
+			if(!Policeage){
+							alert("年龄必填!");
+							$("#Policeage").focus();//获取焦点
+							return ;
+						}
+			if(!Policename){
+							alert("姓名必填!");
+							$("#Policename").focus();//获取焦点
+							return ;
+						}
+			if(!Policestatus){
+							alert("状态必填!");
+							$("#Policestatus").focus();//获取焦点
+							return ;
+						}
+			if(!PolicePerferture){
+							alert("表现必填!");
+							$("#PolicePerferture").focus();//获取焦点
+							return ;
+						}
+			$.ajax({
+			type:"POST",
+			dateType:"json",
+			url:"http://47.95.147.13:9999/userout",
+			data:{"PoliceID":PoliceID,"Policeage":Policeage,"Policename":Policename,"Policestatus":Policestatus,"PolicePerferture":PolicePerferture},
+			headers:{
+                      'Content-Type':'application/json',
+					  'access-token':currentCookie,
+            		},
+			success:function(result){
+				if(result.code == 100){
+					alert("添加成功");
+				}else{
+					alert("添加失败");
+				}
+			},
+			error:function(){
+				alert("向后端添加失败");
+			}
+			});
+			}
+		
+	</script>
+<!-- End custom js for this page -->
+</body>
+</html>

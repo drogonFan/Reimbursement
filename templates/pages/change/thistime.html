@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Stellar Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="../../vendors/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="../../vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="../../css/style.css" <!-- End layout styles -->
+    <link rel="shortcut icon" href="../../images/favicon.png" />
+  </head>
+  <body>
+		<div class="container-scroller">
+			<nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+				<div class="navbar-brand-wrapper d-flex align-items-center">
+				  
+					<img src="../../images/logo.svg" alt="logo" class="logo-dark" />
+				  
+				  
+				</div>
+				<div class="navbar-menu-wrapper d-flex align-items-center flex-grow-1">
+						<h5 class="mb-0 font-weight-medium d-none d-lg-flex">oscar财务报销系统系统</h5>
+						<ul class="navbar-nav navbar-nav-right ml-auto">
+						  </li>
+						  <li class="nav-item dropdown d-none d-xl-inline-flex user-dropdown">
+							  <p class="font-weight-normal" id="username1"> 管理员 </p>
+						  </li>
+						</ul>
+					  </div>
+			  </nav>
+	  <!-- partial -->
+	  <div class="container-fluid page-body-wrapper">
+		<!-- partial:partials/_sidebar.html -->
+		<nav class="sidebar sidebar-offcanvas" id="sidebar">
+			<ul class="nav">
+			  <li class="nav-item nav-profile">
+				  <div class="text-wrapper">
+					
+				  </div>
+				
+			  </li>
+			  <li class="nav-item nav-category"><span class="nav-link">个人报销</span></li>
+			  <li class="nav-item">
+				<a class="nav-link" data-toggle="collapse" id="all" aria-expanded="false" aria-controls="ui-basic">
+				  <span class="menu-title">全部报销</span>
+				</a>
+			  </li>
+			  <li class="nav-item">
+				  <a class="nav-link" id = "add">
+					  <span class="menu-title">申请订单</span>
+				  </a>
+				  
+				</li>
+			  <!--<li class="nav-item">
+				<a class="nav-link" href="pages/tables/basic-table.html">
+				  <span class="menu-title">Tables</span>
+				  <i class="icon-grid menu-icon"></i>
+				</a>
+			  </li>-->
+			</ul>
+		  </nav>
+		<!-- partial -->
+		<div class="main-panel">
+			<div class="content-wrapper">
+			  <div class="row">
+				<div class="col-md-12 grid-margin stretch-card">
+				  <div class="card">
+					<div class="card-body">
+					  <div class="d-sm-flex align-items-center mb-4">
+						<h4 class="card-title mb-sm-0">订单</h4>
+
+						 &nbsp;<button type="button" class="btn btn-primary btn-success btn-sm" id="new">新建订单</button>
+						 &nbsp;<button type="button" class="btn btn-primary btn-success btn-sm" id="over">完成订单</button>
+						 &nbsp;<button type="button" class="btn btn-primary btn-success btn-sm" id="list1">发票号排序</button>
+						 &nbsp;<button type="button" class="btn btn-primary btn-success btn-sm" id="list2">种类排序</button>
+						 &nbsp;<button type="button" class="btn btn-primary btn-success btn-sm" id="list3">人名计算和</button>
+						 &nbsp;<button type="button" class="btn btn-primary btn-success btn-sm" id="list4">种类计算和</button>
+					  </div>
+					  <div class="table-responsive border rounded p-1">
+						<table class="table" id="table">
+						  <thead>
+							<tr>
+							  <th class="font-weight-bold">序号</th>
+							  <th class="font-weight-bold">种类</th>
+							  <th class="font-weight-bold">金额</th>
+							  <th class="font-weight-bold">描述</th>
+							  <th class="font-weight-bold">状态</th>
+				
+							</tr>
+						  </thead>
+						  <tbody>
+						
+						  </tbody>
+						</table>
+					  </div>
+					</div>
+				  </div>
+				</div>
+			  </div>
+			</div>
+			<!-- content-wrapper ends -->
+			<!-- partial:partials/_footer.html -->
+			<footer class="footer">
+			  <div class="d-sm-flex justify-content-center justify-content-sm-between">
+				<span class="text-muted text-center text-sm-left d-block d-sm-inline-block"></span>
+			  </div>
+			</footer>
+			<!-- partial -->
+		  </div>
+	<!-- container-scroller -->
+	<!-- plugins:js -->
+	<script src="../../js/jquery.min.js"></script>
+	
+	<!-- End custom js for this page -->
+	<script>
+				$("#add").click(function(){
+			var url = location.href;
+			var num = url.indexOf("?");
+			var str = url.substr(num+1);
+			var arr = str.split("+");
+			console.log(arr)
+			var ssid = arr[0];
+			var token = arr[1];
+			window.location.href = "thistime.html?"+ssid+"+"+token
+		})
+		$("#all").click(function(){
+			var url = location.href;
+			var num = url.indexOf("?");
+			var str = url.substr(num+1);
+			var arr = str.split("+");
+			console.log(arr)
+			var ssid = arr[0];
+			var token = arr[1];
+			window.location.href = "../../admin.html?"+ssid+"+"+token
+		})
+		$(function() {
+			$(document).on("click", "#list1", function() {
+				//$(this).parents("tr").remove()
+				var url = location.href;
+				var num = url.indexOf("?");
+				var str = url.substr(num+1);
+				var arr = str.split("+");
+				console.log(arr)
+				var ssid = arr[0];
+				var token = arr[1];
+				$("#table tbody").html("");
+				$.ajax({
+					type:"POST",
+					dataType:"json",
+					url:"http://www.oscar-lab.cn:9999/look_invoice/",
+					data:{
+						ssid:ssid,
+					token:token,
+					passed:false,
+					looktype:5
+						
+					},
+					success:function(res){
+					console.log(res)
+					if (typeof res === 'string') {
+							var res = JSON.parse(res);
+						}
+					var str = "<tr>";
+					$.each(res.datas, function(idx,val) {
+						//var str = "<tr>";
+						str +="<td id='IDcard'>"+val.inum+"</td><td>"+val.category+"</td><td>"+val.money+"</td><td>"+val.description+"</td><td id='status'>"+val.status
+								str += "<tr>";
+					});
+					//str += "<tr>";
+					$("tbody").append(str);
+
+				},
+					error:function(){
+							alert("向后端请求失败");
+					}
+				});
+			})
+		})
+		$(function() {
+			$(document).on("click", "#list2", function() {
+				//$(this).parents("tr").remove()
+				var url = location.href;
+				var num = url.indexOf("?");
+				var str = url.substr(num+1);
+				var arr = str.split("+");
+				console.log(arr)
+				var ssid = arr[0];
+				var token = arr[1];
+				$("#table tbody").html("");
+				$.ajax({
+					type:"POST",
+					dataType:"json",
+					url:"http://www.oscar-lab.cn:9999/look_invoice/",
+					data:{
+						ssid:ssid,
+					token:token,
+					passed:false,
+					looktype:6
+						
+					},
+					success:function(res){
+					console.log(res)
+					if (typeof res === 'string') {
+							var res = JSON.parse(res);
+						}
+					var str = "<tr>";
+					$.each(res.datas, function(idx,val) {
+						//var str = "<tr>";
+						str +="<td id='IDcard'>"+val.inum+"</td><td>"+val.category+"</td><td>"+val.money+"</td><td>"+val.description+"</td><td id='status'>"+val.status
+								str += "<tr>";
+					});
+					//str += "<tr>";
+					$("tbody").append(str);
+
+				},
+					error:function(){
+							alert("向后端请求失败");
+					}
+				});
+			})
+		})
+		$(function() {
+			$(document).on("click", "#list3", function() {
+				//$(this).parents("tr").remove()
+				var url = location.href;
+				var num = url.indexOf("?");
+				var str = url.substr(num+1);
+				var arr = str.split("+");
+				console.log(arr)
+				var ssid = arr[0];
+				var token = arr[1];
+				$("#table tbody").html("");
+				$.ajax({
+					type:"POST",
+					dataType:"json",
+					url:"http://www.oscar-lab.cn:9999/look_invoice/",
+					data:{
+						ssid:ssid,
+					token:token,
+					passed:false,
+					looktype:7
+						
+					},
+					success:function(res){
+					console.log(res)
+					if (typeof res === 'string') {
+							var res = JSON.parse(res);
+						}
+					var str = "<tr>";
+					$.each(res.datas, function(idx,val) {
+						//var str = "<tr>";
+						str +="<td id='IDcard'>"+idx+"</td><td>"+val.username+"</td><td>"+val.dcount+"</td><td>"+val.sum+"</td><td id='status'>"+"无"
+								str += "<tr>";
+					});
+					//str += "<tr>";
+					$("tbody").append(str);
+
+				},
+					error:function(){
+							alert("向后端请求失败");
+					}
+				});
+			})
+		})
+		$(function() {
+			$(document).on("click", "#list4", function() {
+				//$(this).parents("tr").remove()
+				var url = location.href;
+				var num = url.indexOf("?");
+				var str = url.substr(num+1);
+				var arr = str.split("+");
+				console.log(arr)
+				var ssid = arr[0];
+				var token = arr[1];
+				$("#table tbody").html("");
+				$.ajax({
+					type:"POST",
+					dataType:"json",
+					url:"http://www.oscar-lab.cn:9999/look_invoice/",
+					data:{
+						ssid:ssid,
+					token:token,
+					passed:false,
+					looktype:8
+					},
+					success:function(res){
+					console.log(res)
+					if (typeof res === 'string') {
+							var res = JSON.parse(res);
+						}
+					var str = "<tr>";
+					$.each(res.datas, function(idx,val) {
+						//var str = "<tr>";
+							str +="<td id='IDcard'>"+idx+"</td><td>"+val.category+"</td><td>"+val.dcount+"</td><td>"+val.sum+"</td><td id='status'>"+"无"
+								str += "<tr>";
+					});
+					//str += "<tr>";
+					$("tbody").append(str);
+
+				},
+					error:function(){
+							alert("向后端请求失败");
+					}
+				});
+			})
+		})
+		$(function() {
+			$(document).on("click", "#new", function() {
+				//$(this).parents("tr").remove()
+				var url = location.href;
+				var num = url.indexOf("?");
+				var str = url.substr(num+1);
+				var arr = str.split("+");
+				console.log(arr)
+				var ssid = arr[0];
+				var token = arr[1];
+				var tall = prompt("请输入订单名称");
+				$.ajax({
+					type:"POST",
+					dataType:"json",
+					url:"http://www.oscar-lab.cn:9999/new_rei_basket/",
+					data:{
+						ssid:ssid,
+						token:token,
+						name:tall
+					},
+					success:function(data){
+						console.log(data)
+						if (typeof data === 'string') {
+							var data = JSON.parse(data);
+						}
+						if(data.code == 100){
+							alert("创建成功")
+						}
+						else{
+							alert("创建失败");
+						}
+					},
+					error:function(){
+							alert("向后端请求失败");
+					}
+				});
+			})
+		})
+		$(function() {
+			$(document).on("click", "#over", function() {
+				//$(this).parents("tr").remove()
+				var url = location.href;
+				var num = url.indexOf("?");
+				var str = url.substr(num+1);
+				var arr = str.split("+");
+				console.log(arr)
+				var ssid = arr[0];
+				var token = arr[1];
+				
+				$.ajax({
+					type:"POST",
+					dataType:"json",
+					url:"http://www.oscar-lab.cn:9999/over_basket/",
+					data:{
+						ssid:ssid,
+						token:token,
+					},
+					success:function(data){
+						console.log(data)
+						if (typeof data === 'string') {
+							var data = JSON.parse(data);
+						}
+						if(data.code == 100){
+							alert("完成成功")
+						}
+						else{
+							alert("完成失败");
+						}
+					},
+					error:function(){
+							alert("向后端请求失败");
+					}
+				});
+			})
+		})
+		
+		$("#userout").click(function(){
+			$.ajax({
+					type:"POST",
+					dataType:"json",
+					url:"DeleteCriminal",
+					data:{"userout":"I want out"},
+					headers:{
+                      'Content-Type':'application/json',
+					  //'access-token':currentCookie,
+            		},
+					success:function(result){
+						if(result.code == 100){
+							window.location.href = "pages/samples/login.html";
+						}
+						else{
+							alert("登出失败");
+						}
+					},
+					error:function(){
+							alert("向后端请求失败");
+					}
+			})
+		})
+		$(document).ready(function(){
+			console.log("hello")
+			var url = location.href;
+				var num = url.indexOf("?");
+				var str = url.substr(num+1);
+				var arr = str.split("+");
+				console.log(arr)
+				var ssid = arr[0];
+				var token = arr[1];
+			$.ajax({
+				type:"POST",
+				url:"http://www.oscar-lab.cn:9999/look_invoice/",
+				data:{
+					ssid:ssid,
+					token:token,
+					passed:false,
+					looktype:5
+				},
+				dataType:"json",
+				success:function(res){
+					console.log(res)
+					if (typeof res === 'string') {
+							var res = JSON.parse(res);
+						}
+					var str = "<tr>";
+					$.each(res.datas, function(idx,val) {
+						//var str = "<tr>";
+						str +="<td id='IDcard'>"+val.inum+"</td><td>"+val.category+"</td><td>"+val.money+"</td><td>"+val.description+"</td><td id='status'>"+val.status
+								str += "<tr>";
+					});
+					//str += "<tr>";
+					$("tbody").append(str);
+
+				}
+			});
+	})
+	</script>
+	</body>
+</html>

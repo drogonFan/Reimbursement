@@ -20,7 +20,7 @@ from Reimbursement.wangyi_email import Email163
 
 @csrf_exempt
 def one(request):
-    return render(request, './login.html')
+    return render(request, 'login.html')
 
 @csrf_exempt
 def signup(request):

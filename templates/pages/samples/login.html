@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Stellar Admin</title>
+    <!-- plugins:css -->
+    <link rel="stylesheet" href="../../vendors/simple-line-icons/css/simple-line-icons.css">
+    <link rel="stylesheet" href="../../vendors/flag-icon-css/css/flag-icon.min.css">
+    <link rel="stylesheet" href="../../vendors/css/vendor.bundle.base.css">
+    <!-- endinject -->
+    <!-- Plugin css for this page -->
+    <!-- End plugin css for this page -->
+    <!-- inject:css -->
+    <!-- endinject -->
+    <!-- Layout styles -->
+    <link rel="stylesheet" href="../../css/style.css" <!-- End layout styles -->
+    <link rel="shortcut icon" href="../../images/favicon.png" />
+  </head>
+  <body>
+    <div class="container-scroller">
+      <div class="container-fluid page-body-wrapper full-page-wrapper">
+        <div class="content-wrapper d-flex align-items-center auth">
+          <div class="row flex-grow">
+            <div class="col-lg-4 mx-auto">
+              <div class="auth-form-light text-left p-5">
+                <div class="brand-logo">
+                  <img src="../../images/logo.svg">
+                </div>
+                <h4>Oscar实验室报销系统</h4>
+                <h6 class="font-weight-light">登录</h6>
+                <form class="pt-3">
+                  <div class="form-group">
+                    <input class="form-control form-control-lg" id="username" placeholder="学号">
+                  </div>
+                  <div class="form-group">
+                    <input type="password" class="form-control form-control-lg" id="password" placeholder="密码">
+                  </div>
+                  <div class="mt-3">
+                    <button type="button" id="sswlogin"class="btn btn-block btn-primary btn-lg font-weight-medium auth-form-btn">登录</button>
+                  </div>
+                </form>
+                <div class="text-center mt-4 font-weight-light"> 没有账号? <a href="register.html" class="text-primary">注册</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- content-wrapper ends -->
+      </div>
+      <!-- page-body-wrapper ends -->
+    </div>
+    <!-- container-scroller -->
+    <!-- plugins:js -->
+    <script src="../../js/jquery.min.js"></script>
+    <!-- endinject -->
+    <!-- Plugin js for this page -->
+    <!-- End plugin js for this page -->
+    <!-- inject:js -->
+    <script>
+      function setCookie (name, value) {
+      if (value) {
+    var Days = 365
+    var exp = new Date()
+    exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000)
+    document.cookie = name + '=' + escape(value) + ';expires=' + exp.toGMTString()
+  }
+}
+function getCookie(name){
+            var arr,reg=new RegExp("(^| )"+name+"=([^;]*)(;|$)");
+            if(arr=document.cookie.match(reg))
+                return unescape(arr[2]);
+            else
+                return null;
+        }
+      $("#sswlogin").click(function() {
+        var username = $("#username").val();
+        var password = $("#password").val();
+        var userName="xiaoming";
+        var reg1 = /^[0-9]{8}$/;
+        var obj1 = document.getElementById("username");
+        //var username = "ssw";
+        //var password = "1234";
+        if(!reg1.test(obj1.value)){
+          alert("学号不正确");
+        }else if(password.length == 0){
+            alert("密码不能为空");
+        }else{
+        $.ajax({
+            type: "POST", //请求方式
+            url: 'http://www.oscar-lab.cn:9999/signin/ ', //请求的接口地址
+            data: {
+              ssid: username, //服务端请求的数据，前者username代表django获取前端的变量名，后者username代表上面定义的变量名
+              passward: password,
+                  },
+            dataType: "json", //返回数据格式，前端要求json格式，后端就必须返回json格式的数据
+            success: function (data) { //data为自定义变量，也可以写成success
+                if (data.code == '100' && data.level == 0) { //success为后端返回的key值，也可以用msg进行判断
+                      //samplesalert("棒棒棒,登录成功！") //弹出提示框
+                      
+                      console.log(data.token)
+                      document.cookie = data.token ;//用于保存token
+                      window.location.href = "../../index.html?"+ $("#username").val()+"+"+data.token;//跳转到成功页
+                      return true
+                      }
+                if(data.code == '100' && data.level == 1){
+                      window.location.href = "../../admin.html?"+ $("#username").val()+"+"+data.token;//跳转到成功页
+                      document.cookie = data.token;//用于保存token
+                      return true
+                }
+                else  {
+                      alert("用户名或密码错误,请重新输入！")
+                      //window.location.href = "/shibai.html" //跳转到失败页
+                            // window.location.reload()
+                      return false
+                        }
+                    },
+                })}
+        });
+    </script>
+    <!-- endinject -->
+  </body>
+</html>

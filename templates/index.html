@@ -142,7 +142,7 @@
             		},
 					success:function(result){
 						if(result.code == 100){
-							window.location.href = "login.html";
+							window.location.href = "pages/samples/login.html";
 						}
 						else{
 							alert("登出失败");
@@ -227,7 +227,7 @@
 			console.log(arr)
 			var ssid = arr[0];
 			var token = arr[1];
-			window.location.href = "addition.html?"+ssid+"+"+token
+			window.location.href = "pages/change/addition.html?"+ssid+"+"+token
 		})
 		$("#all").click(function(){
 			var url = location.href;
@@ -292,7 +292,7 @@
 				console.log(arr)
 				var ssid = arr[0];
 				var token = arr[1];
-				window.location.href = "update.html?"+ssid+"+"+token+"+"+numbering
+				window.location.href = "pages/change/update.html?"+ssid+"+"+token+"+"+numbering
 			})
 		})
 		$(document).ready(function(){
