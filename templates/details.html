@@ -63,7 +63,7 @@
 			  
 			  <li class="nav-item nav-category"><span class="nav-link">警员管理</span></li>
 			  <li class="nav-item">
-				<a class="nav-link" data-toggle="collapse" href="../../pages/icons/police-information.html" aria-expanded="false" aria-controls="ui-basic">
+				<a class="nav-link" data-toggle="collapse" href="../../police-information.html" aria-expanded="false" aria-controls="ui-basic">
 				  <span class="menu-title">警员个人资料</span>
 				  <i class="icon-layers menu-icon"></i>
 				</a>
@@ -79,52 +79,51 @@
 			</ul>
 		  </nav>
 	<!-- partial -->
+	<div class="main-panel">
+	  <div class="content-wrapper">
+		<div class="row purchace-popup">
+		  <div class="col-12 stretch-card grid-margin">
+			<div class="card card-secondary">
+			  <span class="card-body d-lg-flex align-items-center">
+				<p class="mb-lg-0">犯人的详细信息</p>
+			  </span>
+			</div>
+		  </div>
+		</div>
+		<div class="row">
               
                 
-				<div class="main-panel">
-						<div class="content-wrapper">
-						  <div class="row purchace-popup">
-							<div class="col-12 stretch-card grid-margin">
-							  <div class="card card-secondary">
-								<span class="card-body d-lg-flex align-items-center">
-								  <p class="mb-lg-0">警员的详细信息</p>
-								</span>
-							  </div>
-							</div>
-						  </div>
-						  <div class="row">
-								
-								  
-								<div class="col-md-6 grid-margin stretch-card">
-								  <div class="card">
-									<div class="card-body">
-									  <h4 class="card-title">警员个人信息</h4>
-									  <p class="card-description"> 个人资料 </p>
-									  <div class="row">
-										<div class="col-md-6">
-										  <address>
-											<p id="PoliceIDcard">zhangsan</p>
-											<p id="Policename"><span class="font-weight-bold">姓&nbsp;&nbsp;&nbsp;名：</span>张三</p>
-											<p id="Policeage"><span class="font-weight-bold">性&nbsp;&nbsp;&nbsp;别：</span>男</p>
-											<p id="Policestatus"><span class="font-weight-bold">生&nbsp;&nbsp;&nbsp;日：</span>1970年5月生人</p>
-											<p id="PolicelPerferture"><span class="font-weight-bold">生&nbsp;&nbsp;&nbsp;日：</span>1970年5月生人</p>
-										  </address>
-										</div>
-									  </div>
-									</div>
-								  </div>
-								</div>
-								<div class="col-md-6 grid-margin stretch-card">
-									  <div class="card">
-										<div class="card-body">
-										  <h4 class="card-title">案件描述</h4>
-										  <p class="card-description">  声明：<code></code></p>
-										  <p id="caseinfo"> 017年10月以来，以曾泉堡为首要分子，以陆雁、陈聪、梁玉钦为骨干成员的恶势力犯罪集团，先后纠集陈圣、陈之海、何传亮等32人，在北流市新丰镇、平政镇、北流市城区等地，为非作歹，欺压百姓，实施了故意毁坏财物、非法拘禁、寻衅滋事、开设赌场、聚众斗殴、非法持有枪支、盗窃等一系列违法犯罪行为 </p>
-										</div>
-									  </div>
-									</div>
-								
-							  </div>
+              <div class="col-md-6 grid-margin stretch-card">
+                <div class="card">
+                  <div class="card-body">
+                    <h4 class="card-title">监禁人个人信息</h4>
+                    <p class="card-description"> 个人资料 </p>
+                    <div class="row">
+                      <div class="col-md-6">
+                        <address>
+						  <p id="CriminalIDcard">zhangsan</p>
+						  <p id="Criminalfristname"><span class="font-weight-bold">姓&nbsp;&nbsp;&nbsp;氏：</span>张三</p>
+						  <p id="Criminallastname"><span class="font-weight-bold">名&nbsp;&nbsp;&nbsp;字：</span>张三</p>
+                          <p id="Criminalage"><span class="font-weight-bold">性&nbsp;&nbsp;&nbsp;别：</span>男</p>
+						  <p id="Criminalstatus"><span class="font-weight-bold">生&nbsp;&nbsp;&nbsp;日：</span>1970年5月生人</p>
+						  <p id="Criminalgender"><span class="font-weight-bold">生&nbsp;&nbsp;&nbsp;日：</span>1970年5月生人</p>
+                        </address>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-md-6 grid-margin stretch-card">
+                    <div class="card">
+                      <div class="card-body">
+                        <h4 class="card-title">案件描述</h4>
+                        <p class="card-description">  声明：<code></code></p>
+                        <p id="caseinfo"> 017年10月以来，以曾泉堡为首要分子，以陆雁、陈聪、梁玉钦为骨干成员的恶势力犯罪集团，先后纠集陈圣、陈之海、何传亮等32人，在北流市新丰镇、平政镇、北流市城区等地，为非作歹，欺压百姓，实施了故意毁坏财物、非法拘禁、寻衅滋事、开设赌场、聚众斗殴、非法持有枪支、盗窃等一系列违法犯罪行为 </p>
+                      </div>
+                    </div>
+                  </div>
+              
+            </div>
 	  <!-- content-wrapper ends -->
 	  <!-- partial:partials/_footer.html -->
 	  <footer class="footer">
@@ -142,7 +141,7 @@
 <!-- plugins:js -->
 <script src="../../js/jquery.min.js"></script>
 <script>
-	$("#userout").click(function(){
+	/*$("#userout").click(function(){
 			$.ajax({
 					type:"POST",
 					dataType:"json",
@@ -154,7 +153,7 @@
             		},
 					success:function(result){
 						if(result.code == 100){
-							window.location.href = "pages/samples/login.html";
+							window.location.href = "login.html";
 						}
 						else{
 							alert("登出失败");
@@ -164,7 +163,7 @@
 							alert("向后端请求失败");
 					}
 			})
-		})
+		})*/
 	$(document).ready(function(){
        //获取url中的参数
        function getUrlParam(name) {
@@ -178,21 +177,24 @@
        console.log('id:'+id);
 
        $.ajax({
-        type:'get',
-        url:'http://47.95.147.13:9999/getoneCriminal',
-		data:{"IDcsrd":id},   
+        type:'POST',
+        url:'http://47.95.147.13:9999/detail/',
+		data:{"numbering":id},   
 		dataType:'json',
-		headers:{
-                      'Content-Type':'application/json',
-					  'access-token':currentCookie,
-            		},
-        success:function(res){
-			$("#PoliceIDcard").text("编&nbsp;&nbsp;&nbsp;号："+res.PoliceIDcard);
-			$("#Policename").text("姓&nbsp;&nbsp;&nbsp;名："+res.Policename);
-			$("#Policeage").text("年&nbsp;&nbsp;&nbsp;龄："+res.Policeage);
-			$("#Policestatus").text("状&nbsp;&nbsp;&nbsp;态："+res.Policestatus);
-			$("#PolicelPerferture").text("表&nbsp;&nbsp;&nbsp;现："+res.PolicelPerferture);
-			$("#caseinfo").text(res.info);
+        success:function(result){
+			console.log(result)
+			if (typeof result === 'string') {
+				var result = JSON.parse(result);
+			}
+			$("#CriminalIDcard").text("编"+"号："+result.info.numbering);
+			$("#Criminalfristname").text("姓氏："+result.info.fristname);
+			$("#Criminallastname").text("名字："+result.info.lastname);
+			$("#Criminalage").text("年龄："+result.info.age);
+			$("#Criminalstatus").text("状态："+result.info.status);
+			$("#Criminalgender").text("性别："+result.info.gender);
+			//$("#Criminallimitime").text("邢&nbsp;&nbsp;&nbsp;期："+res.Criminallimitime);
+            //$("#Criminalstarttime").text("入&nbsp;&nbsp;&nbsp;狱："+res.Criminalstarttime);
+			$("#caseinfo").text(result.info.description);
         }
        })
 })

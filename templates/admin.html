@@ -137,7 +137,7 @@
             		},
 					success:function(result){
 						if(result.code == 100){
-							window.location.href = "pages/samples/login.html";
+							window.location.href = "login.html";
 						}
 						else{
 							alert("登出失败");
@@ -156,7 +156,7 @@
 			console.log(arr)
 			var ssid = arr[0];
 			var token = arr[1];
-			window.location.href = "pages/change/thistime.html?"+ssid+"+"+token
+			window.location.href = "thistime.html?"+ssid+"+"+token
 		})
 		$("#all").click(function(){
 			var url = location.href;
